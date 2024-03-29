@@ -11,13 +11,13 @@ import java.io.*;
  
 public interface CARE extends Serializable 
 {
- //**************** CARE **************************  
-    
+ //**************** CARE **************************
+
     /**Returns a String representation of the state of the game,
      * including the name of the vizier, state of the treasury,
      * whether defeated or not, and the champions currently in the 
      * team,(or, "No champions" if team is empty)
-     * 
+     * here is a test!
      * @return a String representation of the state of the game,
      * including the name of the vizier, state of the treasury,
      * whether defeated or not, and the champions currently in the 
