@@ -22,7 +22,8 @@ public interface CARE extends Serializable
      * including the name of the vizier, state of the treasury,
      * whether defeated or not, and the champions currently in the 
      * team,(or, "No champions" if team is empty)
-     * ur a bitch
+     *
+     * hello test
      **/
     public String toString();
     
