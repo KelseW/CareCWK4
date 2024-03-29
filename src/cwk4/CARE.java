@@ -7,6 +7,7 @@ import java.io.*;
  * 
  * @author A.A.Marczyk 
  * @version 01/03/2024
+ * HELLO
  */
  
 public interface CARE extends Serializable 
