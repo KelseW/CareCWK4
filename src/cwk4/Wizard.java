@@ -11,10 +11,20 @@ public class Wizard extends Champion {
         this.spellSpeciality = spellSpeciality;
     }
 
+    /**
+     * Returns the type of the Wizard.
+     *
+     * @return Type of the Wizard.
+     */
     public String geType() {
         return type;
     }
 
+    /**
+     * Sets the type of the Wizard.
+     *
+     * @return Sets the type of the Wizard.
+     */
     public void setType(String type) {
         this.type = type;
     }
@@ -57,12 +67,12 @@ public class Wizard extends Champion {
     /**
      * Returns a string representation of the Wizard object.
      *
-     * @return A string containing the name, cost, magic, fight, mystery, name, skill level,
-     * retirement cost, Necromancer status, and spell speciality of the Wizard.
+     * @return A string containing the name, Skill Level, Entry Fee, Type, Is Necromancer, Spell Speciality of the Wizard.
      */
+    @Override
     public String toString() {
         return "Wizard:" +
-                ", Name: " + getName() + '\'' +
+                ", Name: " + getName() +
                 ", Skill Level:" + getSkillLevel() +
                 ", Entry fee: " + getEntryFee() +
                 ", Type: " + geType() +
