@@ -10,7 +10,7 @@ import java.io.*;
  */
 
 public class Tournament implements CARE
-{
+{//balls
    
     private String vizier;
 
