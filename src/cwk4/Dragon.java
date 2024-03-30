@@ -11,6 +11,10 @@ public class Dragon extends Champion{
         return talks;
     }
 
+    public boolean setTalk(boolean talk){
+        talks = talk
+    }
+
     @Override
     public String toSring() {
         return super.toSring() + "Can champion talk: " + talks;
