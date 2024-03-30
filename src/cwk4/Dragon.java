@@ -12,7 +12,7 @@ public class Dragon extends Champion{
     }
 
     public boolean setTalk(boolean talk){
-        talks = talk
+        talks = talk;
     }
 
     @Override
