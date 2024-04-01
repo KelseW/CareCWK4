@@ -10,7 +10,7 @@ import java.io.*;
  */
 
 public class Tournament implements CARE
-{//balls
+{
    
     private String vizier;
 
@@ -121,7 +121,6 @@ public class Tournament implements CARE
      **/        
     public int enterChampion(String nme)
     {
-        
         return -1;
     }
         
@@ -186,7 +185,7 @@ public class Tournament implements CARE
          return (false);
      }    
    
-    /** Provides a String representation of an challenge given by 
+    /** Provides a String representation of a challenge given by
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by 
@@ -194,8 +193,6 @@ public class Tournament implements CARE
      **/
     public String getChallenge(int num)
     {
-        
-        
         return "\nNo such challenge";
     }
     
