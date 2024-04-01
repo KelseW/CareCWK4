@@ -3,6 +3,7 @@ import java.util.*;
 import java.io.*;
 
 public abstract class Champion implements Serializable{
+
     private int entryFee;
     private String name;
     private int skillLevel;
@@ -45,9 +46,9 @@ public abstract class Champion implements Serializable{
     }
 
     /**
-     * Sets the skill level of the Campion.
+     * Sets the skill level of the Champion.
      *
-     * @param skillLevel The skill level of the Campion.
+     * @param skillLevel The skill level of the Champion.
      */
     public void setSkillLevel(int skillLevel) {
         this.skillLevel = skillLevel;
@@ -76,7 +77,7 @@ public abstract class Champion implements Serializable{
      * skill level
      * @return
      */
-    public String toSring(){
+    public String toString(){
         String s = "";
         s += "\nThe name of the champion is "+ name;
         s += "\nThe entry fee of champion is " + entryFee;
@@ -85,4 +86,5 @@ public abstract class Champion implements Serializable{
         return s;
     }
 
+    public abstract String toSring();
 }

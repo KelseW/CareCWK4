@@ -150,7 +150,13 @@ public class Tournament implements CARE
      **/
     public int retireChampion(String nme)
     {
-        return -1;
+        Champion champ = getChamp(nme);
+        if (champ == null){
+            return -1;
+        } else if (xx.get) {
+            
+        }
+
     }
     
     
@@ -247,6 +253,15 @@ public class Tournament implements CARE
     {
 
 
+    }
+    /*---------Helper Functions--------*/
+    public Champion getChamp(String nme){
+        for(Champion xx: Champions){
+            if(xx.getName().equals(nme)){
+                return xx;
+            }
+        }
+        return null;
     }
         
     // Possible useful private methods
