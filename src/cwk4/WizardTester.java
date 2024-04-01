@@ -19,6 +19,7 @@ public class WizardTester {
 
         // Create another Wizard object
         Wizard wizard2 = new Wizard("Wololo", 8, 60, "Dark", true, "Necromancy");
+        Wizard wizard2 = new Wizard("NecroMaster", 8, 60, "Dark", true, "Necromancy");
 
         // Print out the details of the second wizard
         System.out.println("\nDetails of Wizard 2:");
