@@ -1,4 +1,6 @@
 package cwk4;
+import java.util.*;
+import java.io.*;
 
 public class Champion {
     private int entryFee;
