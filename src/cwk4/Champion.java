@@ -43,9 +43,9 @@ public class Champion {
     }
 
     /**
-     * Sets the skill level of the Champion.
+     * Sets the skill level of the Campion.
      *
-     * @param skillLevel The skill level of the Champion.
+     * @param skillLevel The skill level of the Campion.
      */
     public void setSkillLevel(int skillLevel) {
         this.skillLevel = skillLevel;
@@ -58,7 +58,7 @@ public class Champion {
      * skill level
      * @return
      */
-    public String toString(){
+    public String toSring(){
         String s = "";
         s += "The name of the champion is "+ name;
         s += "The entry fee of champion is " + entryFee;
