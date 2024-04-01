@@ -11,7 +11,7 @@ public class Dragon extends Champion{
         return talks;
     }
 
-    public boolean setTalk(boolean talk){
+    public void setTalk(boolean talk){
         talks = talk;
     }
 

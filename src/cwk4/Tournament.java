@@ -11,7 +11,11 @@ import java.io.*;
 
 public class Tournament implements CARE
 {
-   
+    private HashMap<String, Champion> reservedChampions = new HashMap<>();
+
+    private HashMap<String, Champion> TeamRoster = new HashMap<>();
+
+    private ArrayList<Challenges> ChallengeArray = new ArrayList<>();
     private String vizier;
 
 

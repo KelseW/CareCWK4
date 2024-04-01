@@ -2,15 +2,17 @@ package cwk4;
 import java.util.*;
 import java.io.*;
 
-public class Champion {
+public abstract class Champion implements Serializable{
     private int entryFee;
     private String name;
     private int skillLevel;
+    private ChampionState champState;
 
     public Champion(String name, int skillLevel, int entryFee ){
         this.entryFee = entryFee;
         this.name = name;
         this.skillLevel = skillLevel;
+        this.champState = ChampionState.WAITING;
     }
 
 
@@ -52,6 +54,22 @@ public class Champion {
     }
 
     /**
+     * Returns the champion's current state
+     *
+     * @return champState
+     */
+    public ChampionState getChampState(){
+        return champState;
+    }
+
+    /**
+     * Sets the champion's current state
+     */
+    public void setChampState(ChampionState champState) {
+        this.champState = champState;
+    }
+
+    /**
      * Returns information about our champion
      * name
      * entry fee
@@ -60,9 +78,10 @@ public class Champion {
      */
     public String toSring(){
         String s = "";
-        s += "The name of the champion is "+ name;
-        s += "The entry fee of champion is " + entryFee;
-        s += "The skill level of champion is " + skillLevel;
+        s += "\nThe name of the champion is "+ name;
+        s += "\nThe entry fee of champion is " + entryFee;
+        s += "\nThe skill level of champion is " + skillLevel;
+        s += "\nThe Champion's state is " + champState;
         return s;
     }
 
