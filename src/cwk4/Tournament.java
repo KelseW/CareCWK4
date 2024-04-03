@@ -61,7 +61,9 @@ public class Tournament implements CARE
     public String toString()
     {
         String s = "\nVizier: " + vizier ;
-        
+        s+="\nTreasury: "+treasury;
+        s+="\nDefeated: "+isDefeated();
+        s+="\nChampions in Team"+getTeam(); //atm it will return "No champions entered" need to change
         return s;
     }
     
@@ -73,6 +75,9 @@ public class Tournament implements CARE
      */
     public boolean isDefeated()
     {
+        if (treasury<=0){
+            return TeamRoster.isEmpty();
+        }
         return false;
     }
     
@@ -81,7 +86,7 @@ public class Tournament implements CARE
      */
     public int getMoney()
     {
-        return 0;
+        return treasury;
     }
     
     
@@ -89,7 +94,10 @@ public class Tournament implements CARE
      * @return a String representation of all champions in the reserves
      **/
     public String getReserve()
-    {   
+    {
+        for (int i=0;i<reservedChampions.size();i++){
+            s += reservedChampions.get(1);
+        }
         String s = "************ Champions available in reserves********";
         
         return s;
@@ -177,7 +185,7 @@ public class Tournament implements CARE
     {
         String s = "************ Vizier's Team of champions********";
         if(TeamRoster.isEmpty()){
-            return "\nThere are no champions in the team";
+            return "\nNo champions entered";
         }
         for(Champion champ: TeamRoster.values()){
             s += champ.toString();
@@ -391,7 +399,7 @@ public class Tournament implements CARE
             }
         }
 
-     /** reads all information about the game from the specified file 
+     /** reads all information about the game from the specified file
      * and returns a CARE reference to a Tournament object, or null
      * @param fname name of file storing the game
      * @return the game (as a Tournament object)
