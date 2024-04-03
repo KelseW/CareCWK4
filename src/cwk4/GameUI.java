@@ -18,7 +18,7 @@ public class GameUI
         int choice;
         String vizierName;
         String output = "";
-        int result = -1; 
+        int result = -1;
         try
         {
             System.out.println("Enter vizier's name");

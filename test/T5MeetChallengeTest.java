@@ -216,7 +216,7 @@ public class T5MeetChallengeTest {
       
     @Test
     public void warriorFacingFightAllowedWinsMoneyAdded() {
-        int expected = 220;
+        int expected = 1000-900+120;
         game.enterChampion("Argon");
         game.meetChallenge(2);
         int actual = game.getMoney();
@@ -233,7 +233,7 @@ public class T5MeetChallengeTest {
     
     @Test
     public void warriorFacingFightAllowedLosesMoneyDeducted() {
-        int expected = 680;
+        int expected = 1000-200-120;
         game.enterChampion("Flimsi");
         game.meetChallenge(2);
         int actual = game.getMoney();
@@ -252,7 +252,7 @@ public class T5MeetChallengeTest {
     
     @Test
     public void warriorFacingMysteryNotAllowedMoneyDeducted() {
-        int expected = -50;
+        int expected = 1000-900-150;
         game.enterChampion("Argon");
         game.meetChallenge(3);
         int actual = game.getMoney();
