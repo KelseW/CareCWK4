@@ -17,6 +17,7 @@ public class Tournament implements CARE
 
     private ArrayList<Challenges> ChallengeArray = new ArrayList<>();
     private String vizier;
+    private int treasury;
     private  ArrayList<String> challengeList= new ArrayList<String>();
 
 
