@@ -154,7 +154,7 @@ public class Tournament implements CARE
         Champion champ = getChamp(nme);
         if (champ == null){
             return 2;
-        } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if chsmpion has been disqualified
+        } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if champion has been disqualified
             return 1;
         }
         else{
