@@ -1,32 +1,13 @@
 package cwk4;
 
 public class Wizard extends Champion {
-    private String type;
     private boolean isNecromancer;
     private String spellSpeciality;
 
-    public Wizard (String name, int skillLevel, int entryFee, String type, boolean isNecromancer, String spellSpeciality) {
+    public Wizard (String name, int skillLevel, int entryFee, boolean isNecromancer, String spellSpeciality) {
         super(name, skillLevel, entryFee);
         this.isNecromancer = isNecromancer;
         this.spellSpeciality = spellSpeciality;
-    }
-
-    /**
-     * Returns the type of the Wizard.
-     *
-     * @return Type of the Wizard.
-     */
-    public String geType() {
-        return type;
-    }
-
-    /**
-     * Sets the type of the Wizard.
-     *
-     * Sets the type of the Wizard.
-     */
-    public void setType(String type) {
-        this.type = type;
     }
     /**
      * Returns whether the Wizard is a Necromancer or not.
@@ -80,7 +61,6 @@ public class Wizard extends Champion {
                 ", Name: " + getName() +
                 ", Skill Level:" + getSkillLevel() +
                 ", Entry fee: " + getEntryFee() +
-                ", Type: " + geType() +
                 ", Is Necromancer: " + isNecromancer +
                 ", Spell Speciality: " + spellSpeciality +
                 '}';
