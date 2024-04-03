@@ -15,8 +15,12 @@ public class Warrior extends Champion {
     }
 
     @Override
-    public String toString()
-    {
+    public boolean canMeetChallenge(ChallengeType type) {
+        return type == ChallengeType.FIGHT;
+    }
+
+    @Override
+    public String toString() {
         return super.toString() + "The weapon type is " + weaponType;
     }
 
