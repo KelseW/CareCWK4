@@ -18,6 +18,8 @@ public class Tournament implements CARE
     private ArrayList<Challenge> ChallengeArray = new ArrayList<>();
     private String vizier;
     private int treasury;
+    private  ArrayList<String> challengeList= new ArrayList<String>();
+
 
 
 //**************** CARE ************************** 
@@ -297,6 +299,7 @@ public class Tournament implements CARE
         ChallengeArray.add(new Challenge(10,ChallengeType.FIGHT, "Jute", 2, 300));
         ChallengeArray.add(new Challenge(11,ChallengeType.MAGIC, "Celt", 2, 250));
         ChallengeArray.add(new Challenge(12,ChallengeType.MYSTERY, "Celt", 1, 250));
+
     }
     /*---------Helper Functions--------*/
     public Champion getChampionForChallenge(int chalNo){
@@ -306,6 +309,7 @@ public class Tournament implements CARE
                 return ww;
             }
         }
+        return null;
     }
 
     public Champion getChamp(String nme){
@@ -350,8 +354,41 @@ public class Tournament implements CARE
      * @param filename of the comma-separated textfile storing information about challenges
      */
     public void readChallenges(String filename)
-    { 
-        
+    {
+        try {
+            File challengeFile = new File("challengesAM.txt");
+            Scanner myReader = new Scanner(challengeFile);
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine();
+                challengeList.add(line);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            return;
+        }
+        int challengeNum = challengeList.size();
+        Challenges[] allChallenges = new Challenges[challengeNum];
+        for (int num = 0; num < challengeList.size(); num++) {
+            String toBeArray = challengeList.get(num);
+            int counter = 0;
+            StringBuilder word = new StringBuilder();
+            char breaker = ',';
+            ArrayList<String> challengeFields = new ArrayList<String>();
+            while (counter != toBeArray.length()) {
+
+                char letter = toBeArray.charAt(counter);
+
+                if (letter == breaker) {
+                    challengeFields.add(word.toString());
+                    word = new StringBuilder();
+                    counter += 1;
+                } else {
+                    word.append(Character.toString(letter));
+                    counter += 1;
+                }
+            }
+            allChallenges[num] = new Challenges(num, challengeFields.get(0), challengeFields.get(1), challengeFields.get(2), challengeFields.get(3));
+        }
     }   
     
      /** reads all information about the game from the specified file 
