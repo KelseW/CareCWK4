@@ -13,6 +13,7 @@ public class Tournament implements CARE
 {//balls
    
     private String vizier;
+    private  ArrayList<String> challengeList= new ArrayList<String>();
 
 
 //**************** CARE ************************** 
@@ -242,9 +243,7 @@ public class Tournament implements CARE
 
    }
      
-    private void setupChallenges()
-    {
-
+    private void setupChallenges() {
 
     }
         
@@ -272,8 +271,41 @@ public class Tournament implements CARE
      * @param filename of the comma-separated textfile storing information about challenges
      */
     public void readChallenges(String filename)
-    { 
-        
+    {
+        try {
+            File challengeFile = new File("challengesAM.txt");
+            Scanner myReader = new Scanner(challengeFile);
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine();
+                challengeList.add(line);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            return;
+        }
+        int challengeNum = challengeList.size();
+        Challenges[] allChallenges = new Challenges[challengeNum];
+        for (int num = 0; num < challengeList.size(); num++) {
+            String toBeArray = challengeList.get(num);
+            int counter = 0;
+            StringBuilder word = new StringBuilder();
+            char breaker = ',';
+            ArrayList<String> challengeFields = new ArrayList<String>();
+            while (counter != toBeArray.length()) {
+
+                char letter = toBeArray.charAt(counter);
+
+                if (letter == breaker) {
+                    challengeFields.add(word.toString());
+                    word = new StringBuilder();
+                    counter += 1;
+                } else {
+                    word.append(Character.toString(letter));
+                    counter += 1;
+                }
+            }
+            allChallenges[num] = new Challenges(num, challengeFields.get(0), challengeFields.get(1), challengeFields.get(2), challengeFields.get(3));
+        }
     }   
     
      /** reads all information about the game from the specified file 
