@@ -23,7 +23,7 @@ public class Wizard extends Champion {
     /**
      * Sets the type of the Wizard.
      *
-     * @return Sets the type of the Wizard.
+     * Sets the type of the Wizard.
      */
     public void setType(String type) {
         this.type = type;
@@ -62,6 +62,11 @@ public class Wizard extends Champion {
      */
     public void setSpellSpeciality(String spellSpeciality) {
         this.spellSpeciality = spellSpeciality;
+    }
+
+    @Override
+    public boolean canMeetChallenge(ChallengeType type) {
+        return true;
     }
 
     /**

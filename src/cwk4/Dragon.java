@@ -13,11 +13,17 @@ public class Dragon extends Champion{
 
     public void setTalk(boolean talk){
         talks = talk;
-        return talks;
     }
 
     @Override
-    public String toSring() {
+    public String toString(){
         return super.toString() + "Can talk:  " + talks;
+    }
+
+    @Override
+    public boolean canMeetChallenge(ChallengeType type) {
+        boolean canMeetMystery = type == ChallengeType.MYSTERY && canTalk();
+        boolean canMeetEither = type == ChallengeType.FIGHT || canMeetMystery;
+        return canMeetEither;
     }
 }

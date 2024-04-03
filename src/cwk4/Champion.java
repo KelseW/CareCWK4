@@ -70,6 +70,8 @@ public abstract class Champion implements Serializable{
         this.champState = champState;
     }
 
+    public abstract boolean canMeetChallenge(ChallengeType type);
+
     /**
      * Returns information about our champion
      * name
@@ -86,5 +88,4 @@ public abstract class Champion implements Serializable{
         return s;
     }
 
-    public abstract String toSring();
 }
