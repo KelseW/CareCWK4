@@ -18,11 +18,10 @@ public class Challenges {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            return;
         }
     }
-    public ArrayList getChallengeFields(int num) {
+    public ArrayList<String> getChallengeFields(int num) {
         String toBeArray = challengeList.get(num - 1);
         int counter = 0;
         String word = "";
@@ -44,7 +43,7 @@ public class Challenges {
         }
         return challengeFields;
     }
-    public ArrayList getChallenges(){
+    public ArrayList<String> getChallenges(){
         return challengeList;
     }
     public String getChallengeLine(int num){
