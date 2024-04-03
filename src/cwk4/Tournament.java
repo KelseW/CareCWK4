@@ -15,7 +15,7 @@ public class Tournament implements CARE
 
     private HashMap<String, Champion> TeamRoster = new HashMap<>();
 
-    private ArrayList<Challenges> ChallengeArray = new ArrayList<>();
+    private ArrayList<Challenge> ChallengeArray = new ArrayList<>();
     private String vizier;
     private int treasury;
     private  ArrayList<String> challengeList= new ArrayList<String>();
@@ -156,7 +156,7 @@ public class Tournament implements CARE
         Champion champ = getChamp(nme);
         if (champ == null){
             return 2;
-        } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if chsmpion has been disqualified
+        } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if champion has been disqualified
             return 1;
         }
         else{
@@ -241,7 +241,7 @@ public class Tournament implements CARE
         if(ChallengeArray.isEmpty()){
             return "There are no challenges";
         }
-        for (Challenges xx: ChallengeArray){
+        for (Challenge xx: ChallengeArray){
             s += xx.toString();
         }
        
@@ -268,7 +268,7 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
-        Challenges ww = getSpecificChallenge(chalNo);
+        Challenge ww = getSpecificChallenge(chalNo);
         if(ww!=null){
             Champion xx = getChampionForChallenge(chalNo);
 
@@ -282,21 +282,34 @@ public class Tournament implements CARE
     //*******************************************************************************
     private void setupChampions()
     {
-        
 
    }
      
-    private void setupChallenges() {
+    private void setupChallenges()
+    {
+        ChallengeArray.add(new Challenge(1,ChallengeType.MAGIC, "Borg", 3, 100));
+        ChallengeArray.add(new Challenge(2,ChallengeType.FIGHT, "Huns", 3, 120));
+        ChallengeArray.add(new Challenge(3,ChallengeType.MYSTERY, "Ferengi", 3, 150));
+        ChallengeArray.add(new Challenge(4,ChallengeType.MAGIC, "Vandal", 9, 200));
+        ChallengeArray.add(new Challenge(5,ChallengeType.MYSTERY, "Borg", 7, 90));
+        ChallengeArray.add(new Challenge(6,ChallengeType.FIGHT, "Goth", 8, 45));
+        ChallengeArray.add(new Challenge(7,ChallengeType.MAGIC, "Frank", 10, 200));
+        ChallengeArray.add(new Challenge(8,ChallengeType.FIGHT, "Sith", 10, 170));
+        ChallengeArray.add(new Challenge(9,ChallengeType.MYSTERY, "Cardashian", 9, 300));
+        ChallengeArray.add(new Challenge(10,ChallengeType.FIGHT, "Jute", 2, 300));
+        ChallengeArray.add(new Challenge(11,ChallengeType.MAGIC, "Celt", 2, 250));
+        ChallengeArray.add(new Challenge(12,ChallengeType.MYSTERY, "Celt", 1, 250));
 
     }
     /*---------Helper Functions--------*/
     public Champion getChampionForChallenge(int chalNo){
-        Challenges xx = getSpecificChallenge(chalNo);
+        Challenge xx = getSpecificChallenge(chalNo);
         for(Champion ww: TeamRoster.values()){
-            if(ww.canMeetChallenge(xx.getChallengeType(chalNo)) || ww.available()){
+            if(ww.canMeetChallenge(xx.getChallengeType()) || ww.available()){
                 return ww;
             }
         }
+        return null;
     }
 
     public Champion getChamp(String nme){
@@ -308,15 +321,15 @@ public class Tournament implements CARE
         return null;
     }
 
-    public Challenges getSpecificChallenge(int No){
-        for(Challenges xx: ChallengeArray){
-            if(xx.getNo() == No){
+    public Challenge getSpecificChallenge(int No){
+        for(Challenge xx: ChallengeArray){
+            if(xx.getChalNo() == No){
                 return xx;
             }
         }
         return null;
     }
-    /**********End of helper fumctions******/
+    /**********End of helper functions******/
     // Possible useful private methods
 //     private Challenge getAChallenge(int no)
 //     {
