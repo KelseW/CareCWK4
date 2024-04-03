@@ -12,7 +12,6 @@ public class Player {
         playerRole = clas;
         playerID = id;
         playerTreasury = treas;
-
     }
 
     public int getPlayerTreasury() {
@@ -22,13 +21,13 @@ public class Player {
     public int getPlayerID() {
         return playerID;
     }
-
     public String getPlayerRole() {
         return playerRole;
     }
     public String getPlayerName(){
         return playerName;
     }
+
     public String addGulden(int gulden){
         playerTreasury+=gulden;
         return gulden+" Gulden has been added to Treasury";

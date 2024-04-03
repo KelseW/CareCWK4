@@ -12,7 +12,8 @@ public class Teamwork
     private String[] details = new String[12];
     
     public Teamwork()
-    {   // in each line replace the contents of the String 
+    {   // in each line replace the contents of
+        // the String
         // with the details of your team member
         // Please list the member details alphabetically by surname 
         // i.e. the surname of member1 should come alphabetically 

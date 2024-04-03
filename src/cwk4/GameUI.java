@@ -28,47 +28,64 @@ public class GameUI
             //tr = new Tournament(s,"challengesAM.txt"); // alternative create task 3.5
             choice = 100;
             while (choice != 0 )
+            //0 = quit
             {
                 choice = getMenuItem();
                 if (choice == 1)
+                //1 = list champions in reserve
                 {
                     System.out.println(tr.getReserve());
                 }
                 else if (choice == 2)
+                //2 = list champions in viziers team
                 {
                     System.out.println(tr.getTeam());
                 }
                 else if (choice == 3)
+                //3 = view a champion
                 {
                     System.out.println("Enter Champion name");
-                    String ref = (myIn.nextLine()).trim();
-                    System.out.println(tr.getChampionDetails(ref));
+                    String champ = (myIn.nextLine()).trim();
+                    System.out.println(tr.getChampionDetails(champ));
                 } 
                 else if (choice == 4)
+                //4 = enter champion into viziers team
                 {   
-                    // provide code here
-                    // output should be meaningful
+                    System.out.println("Enter Champion name");
+                    String champ = myIn.nextLine();
+                    if (!tr.isInViziersTeam(champ))
+                    //if the champion is NOT in the viziers team already
+                    {
+                        System.out.println(tr.enterChampion(champ));
+                    }
 
                 }
                 else if (choice == 5)
+                //5 = meet a challenge
                 {
-                    // provide code here
-                    // output should be meaningful
+                    System.out.println("Enter the Challenge ID");
+                    int chalNo = myIn.nextInt();
+                    System.out.println(tr.meetChallenge(chalNo));
                 }
-                else if (choice==6)
+                else if (choice == 6)
+                //6 = retire a champion
                 {
-                    // provide code here
-                    // output should be meaningful
-                }  
-                else if (choice==7)
-                {
-                    // provide code here
+                    System.out.println("Enter Champion name that you want to retire");
+                    String champ = myIn.nextLine();
+                    System.out.println(tr.retireChampion(champ));
                 }
-                else if (choice==8)
+                else if (choice == 7)
+                //7 = view game state
+                {
+                    System.out.println(tr.toString());
+                }
+                else if (choice == 8)
+                //8 = see all challenges
                 {
                     System.out.println(tr.getAllChallenges());
                 }
                 else if (choice == 9) // Task 3.5 only
+                //9 = save game
                 {
                     System.out.println("Write to file");
                     System.out.println("Enter file name");
@@ -76,6 +93,7 @@ public class GameUI
                     tr.saveGame(filename);
                 }
                 else if (choice == 10) // Task 3.5 only
+                //10 = load game
                 {
                     System.out.println("Restore from file");
                     System.out.println("Enter file name");
