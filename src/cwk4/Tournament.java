@@ -11,8 +11,13 @@ import java.io.*;
 
 public class Tournament implements CARE
 {
-   
+    private HashMap<String, Champion> reservedChampions = new HashMap<>();
+
+    private HashMap<String, Champion> TeamRoster = new HashMap<>();
+
+    private ArrayList<Challenges> ChallengeArray = new ArrayList<>();
     private String vizier;
+    private int treasury;
 
 
 //**************** CARE ************************** 
@@ -121,7 +126,6 @@ public class Tournament implements CARE
      **/        
     public int enterChampion(String nme)
     {
-        
         return -1;
     }
         
@@ -147,7 +151,18 @@ public class Tournament implements CARE
      **/
     public int retireChampion(String nme)
     {
-        return -1;
+        Champion champ = getChamp(nme);
+        if (champ == null){
+            return 2;
+        } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if chsmpion has been disqualified
+            return 1;
+        }
+        else{
+            champ.setChampState(ChampionState.WAITING);
+            TeamRoster.remove(nme);
+            treasury = treasury + (champ.getEntryFee() / 2);
+            return 0;
+        }
     }
     
     
@@ -159,8 +174,12 @@ public class Tournament implements CARE
     public String getTeam()
     {
         String s = "************ Vizier's Team of champions********";
-        
-       
+        if(TeamRoster.isEmpty()){
+            return "\nThere are no champions in the team";
+        }
+        for(Champion champ: TeamRoster.values()){
+            s += champ.toString();
+        }
         return s;
     }
     
@@ -170,8 +189,15 @@ public class Tournament implements CARE
      **/
     public String getDisqualified()
     {
+        int counter = 0;
         String s = "************ Vizier's Disqualified champions********";
-        
+        for(Champion champ: TeamRoster.values()){
+            if(champ.getChampState()== ChampionState.DISQUALIFIED){
+                s += champ.toString();
+                counter++;
+            }
+        }
+        if(counter > 0){return "No disqualified champions";}
         
         return s;
     }
@@ -183,20 +209,25 @@ public class Tournament implements CARE
      **/
      public boolean isChallenge(int num)
      {
-         return (false);
+         if (num > 0 && num <= ChallengeArray.size()) {
+             return true;
+         }
+         return false;
      }    
    
-    /** Provides a String representation of an challenge given by 
+    /** Provides a String representation of a challenge given by
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by 
      * the challenge number
      **/
+
     public String getChallenge(int num)
     {
-        
-        
-        return "\nNo such challenge";
+        if(isChallenge(num)) {
+            ChallengeArray.get(num - 1).toString();
+        }
+        return "Challenge does not exist";
     }
     
     /** Provides a String representation of all challenges 
@@ -205,6 +236,12 @@ public class Tournament implements CARE
     public String getAllChallenges()
     {
         String s = "\n************ All Challenges ************\n";
+        if(ChallengeArray.isEmpty()){
+            return "There are no challenges";
+        }
+        for (Challenges xx: ChallengeArray){
+            s += xx.toString();
+        }
        
         return s;
     }
@@ -229,6 +266,11 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
+        Challenges ww = getSpecificChallenge(chalNo);
+        if(ww!=null){
+            Champion xx = getChampionForChallenge(chalNo);
+
+        }
         
         return outcome;
     }
@@ -247,7 +289,34 @@ public class Tournament implements CARE
 
 
     }
-        
+    /*---------Helper Functions--------*/
+    public Champion getChampionForChallenge(int chalNo){
+        Challenges xx = getSpecificChallenge(chalNo);
+        for(Champion ww: TeamRoster.values()){
+            if(ww.canMeetChallenge(xx.getChallengeType(chalNo)) || ww.available()){
+                return ww;
+            }
+        }
+    }
+
+    public Champion getChamp(String nme){
+        for(Champion xx: TeamRoster.values()){
+            if(xx.getName().equals(nme)){
+                return xx;
+            }
+        }
+        return null;
+    }
+
+    public Challenges getSpecificChallenge(int No){
+        for(Challenges xx: ChallengeArray){
+            if(xx.getNo() == No){
+                return xx;
+            }
+        }
+        return null;
+    }
+    /**********End of helper fumctions******/
     // Possible useful private methods
 //     private Challenge getAChallenge(int no)
 //     {
