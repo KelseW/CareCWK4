@@ -1,0 +1,39 @@
+package cwk4;
+
+public class Challenge {
+    private int chalNo;
+    private ChallengeType chalType;
+    private int skillLevel;
+    private boolean result;
+    private int reward;
+    private String enemy;
+
+    public Challenge(int chalNo, ChallengeType chalType, String enemy, int skillLevel, int reward) {
+        this.chalNo = chalNo;
+        this.chalType = chalType;
+        this.enemy = enemy;
+        this.skillLevel = skillLevel;
+        this.reward = reward;
+    }
+
+    public int getChalNo() {
+        return chalNo;
+    }
+
+    public ChallengeType getChallengeType() {
+        return chalType;
+    }
+
+    public String getEnemy() {
+        return enemy;
+    }
+
+    public int getSkillLevel() {
+        return skillLevel;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+}
