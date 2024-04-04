@@ -159,6 +159,6 @@ public class T7ChallengeSequences {
         assertEquals(expected, actual);
     }
     
-// Add your own tests    
+// Add your own tests
 
 }

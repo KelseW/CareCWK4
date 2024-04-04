@@ -32,7 +32,7 @@ public abstract class Champion implements Serializable{
      *
      * @return name
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
 

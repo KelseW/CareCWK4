@@ -164,6 +164,11 @@ public class Tournament implements CARE
      **/
     public boolean isInViziersTeam(String nme)
     {
+        for (Champion champion : champions) {
+            if (champion.getName().equals(nme)) {
+                return true;
+            }
+        }
         return false;
     }
     
@@ -380,6 +385,7 @@ public class Tournament implements CARE
      * reads challenges from a comma-separated textfile and stores in the game
      * @param filename of the comma-separated textfile storing information about challenges
      */
+
     public void readChallenges(String filename) {
         try {
             File challengeFile = new File("challengesAM.txt");
