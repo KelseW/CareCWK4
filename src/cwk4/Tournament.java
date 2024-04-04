@@ -69,6 +69,9 @@ public class Tournament implements CARE
      */
     public boolean isDefeated()
     {
+        if (treasury<=0){
+            return champions.isEmpty();
+        }
         return false;
     }
 
@@ -77,7 +80,7 @@ public class Tournament implements CARE
      */
     public int getMoney()
     {
-        return 0;
+        return treasury;
     }
 
 
