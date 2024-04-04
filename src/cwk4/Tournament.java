@@ -17,9 +17,6 @@ public class Tournament implements CARE
     private int treasury;
     private  ArrayList<Challenge> challengeList= new ArrayList<Challenge>();
 
-
-
-
 //**************** CARE ************************** 
     /** Constructor requires the name of the vizier
      * @param viz the name of the vizier
@@ -105,7 +102,7 @@ public class Tournament implements CARE
             }
         }
         return "\nNo such champion";
-    }    
+    }
     
     /** returns whether champion is in reserve
     * @param nme champion's name
@@ -140,7 +137,6 @@ public class Tournament implements CARE
              }
          }
          int entryFee = champion.getEntryFee();
-
          if (champion == null) {
              return -1; // No such champion
          }
@@ -195,7 +191,6 @@ public class Tournament implements CARE
             treasury = treasury + (champ.getEntryFee() / 2);
             return 0;
         }
-
     }
     
     
@@ -222,8 +217,8 @@ public class Tournament implements CARE
      **/
     public String getDisqualified()
     {
-        int counter = 0;
         String s = "************ Vizier's Disqualified champions********";
+        int counter = 0;
         for(Champion champ: champions){
             if(champ.getChampState()== ChampionState.DISQUALIFIED){
                 s += champ.toString();
@@ -231,7 +226,6 @@ public class Tournament implements CARE
             }
         }
         if(counter > 0){return "No disqualified champions";}
-        
         return s;
     }
     
@@ -242,19 +236,15 @@ public class Tournament implements CARE
      **/
      public boolean isChallenge(int num)
      {
-         if (num > 0 && num <= ChallengeArray.size()) {
-             return true;
-         }
-         return false;
+         return (false);
      }    
    
-    /** Provides a String representation of a challenge given by
+    /** Provides a String representation of an challenge given by 
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by 
      * the challenge number
      **/
-
     public String getChallenge(int num)
     {
         if(isChallenge(num)) {
@@ -275,6 +265,7 @@ public class Tournament implements CARE
         for (Challenge xx: challengeList){
             s += xx.toString();
         }
+
        
         return s;
     }
@@ -299,11 +290,6 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
-        Challenge ww = getSpecificChallenge(chalNo);
-        if(ww!=null){
-            Champion xx = getChampionForChallenge(chalNo);
-
-        }
         
         return outcome;
     }
@@ -328,7 +314,6 @@ public class Tournament implements CARE
 
     private void setupChallenges()
     {
-
         challengeList.add(new Challenge(1,ChallengeType.MAGIC, "Borg", 3, 100));
         challengeList.add(new Challenge(2,ChallengeType.FIGHT, "Huns", 3, 120));
         challengeList.add(new Challenge(3,ChallengeType.MYSTERY, "Ferengi", 3, 150));
@@ -351,6 +336,7 @@ public class Tournament implements CARE
                 return ww;
             }
         }
+        return null;
     }
 
     public Champion getChamp(String nme){
@@ -369,8 +355,9 @@ public class Tournament implements CARE
             }
         }
         return null;
+
     }
-    /**********End of helper functions******/
+        
     // Possible useful private methods
 //     private Challenge getAChallenge(int no)
 //     {
@@ -453,6 +440,3 @@ public class Tournament implements CARE
  
 
 }
-
-
-
