@@ -57,6 +57,9 @@ public class Tournament implements CARE
     public String toString()
     {
         String s = "\nVizier: " + vizier ;
+        s+="\nTreasury: "+treasury;
+        s+="\nDefeated: "+isDefeated();
+        s+="\nIn Team: "+getTeam();
 
         return s;
     }
@@ -89,9 +92,11 @@ public class Tournament implements CARE
      **/
     public String getReserve()
     {
-        String s = "************ Champions available in reserves********";
-
-        return s;
+        StringBuilder s = new StringBuilder("************ Champions in Reserve ********");
+        for (Champion res : reserves) {
+            s.append(res.getName());
+        }
+        return s.toString();
     }
 
 
@@ -169,6 +174,11 @@ public class Tournament implements CARE
      **/
     public boolean isInViziersTeam(String nme)
     {
+        for (Champion champ : champions){
+            if(champ.getName() == nme){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -205,14 +215,14 @@ public class Tournament implements CARE
      **/
     public String getTeam()
     {
-        String s = "************ Vizier's Team of champions********";
+        StringBuilder s = new StringBuilder("************ Vizier's Team of champions********");
         if(champions.isEmpty()){
-            return "\nThere are no champions in the team";
+            return "\nNo champions entered";
         }
         for(Champion champ: champions){
-            s += champ.toString();
+            s.append(champ.toString());
         }
-        return s;
+        return s.toString();
     }
 
     /**Returns a String representation of the disquakified champions in the vizier's team
@@ -221,16 +231,16 @@ public class Tournament implements CARE
      **/
     public String getDisqualified()
     {
-        String s = "************ Vizier's Disqualified champions********";
+        StringBuilder s = new StringBuilder("************ Vizier's Disqualified champions********");
         int counter = 0;
         for(Champion champ: champions){
             if(champ.getChampState()== ChampionState.DISQUALIFIED){
-                s += champ.toString();
+                s.append("\n").append(champ.toString());
                 counter++;
             }
         }
         if(counter > 0){return "No disqualified champions";}
-        return s;
+        return s.toString();
     }
 
 //**********************Challenges*************************
@@ -252,7 +262,7 @@ public class Tournament implements CARE
     public String getChallenge(int num)
     {
         if(isChallenge(num)) {
-            challengeList.get(num - 1).toString();
+            return challengeList.get(num - 1).toString();
         }
         return "Challenge does not exist";
     }
@@ -262,16 +272,16 @@ public class Tournament implements CARE
      **/
     public String getAllChallenges()
     {
-        String s = "\n************ All Challenges ************\n";
+        StringBuilder s = new StringBuilder("\n************ All Challenges ************\n");
         if(challengeList.isEmpty()){
             return "There are no challenges";
         }
         for (Challenge xx: challengeList){
-            s += xx.toString();
+            s.append("\n").append(xx.toString());
         }
 
 
-        return s;
+        return s.toString();
     }
 
 
@@ -398,7 +408,7 @@ public class Tournament implements CARE
             return;
         }
         int challengeNum = challengeListStr.size();
-        Challenges[] allChallenges = new Challenges[challengeNum];
+        Challenge[] allChallenges = new Challenge[challengeNum];
         for (int num = 0; num < challengeListStr.size(); num++) {
             String toBeArray = challengeListStr.get(num);
             int counter = 0;
@@ -418,7 +428,10 @@ public class Tournament implements CARE
                     counter += 1;
                 }
             }
-            allChallenges[num] = new Challenge(num, challengeFields.get(0), challengeFields.get(1), challengeFields.get(2), challengeFields.get(3));
+            ChallengeType.valueOf(challengeFields.get(0));
+            allChallenges[num] = new Challenge(num, ChallengeType.valueOf(challengeFields.get(0)),
+                    challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
+                    , Integer.parseInt(challengeFields.get(3)));
         }
     }
 
