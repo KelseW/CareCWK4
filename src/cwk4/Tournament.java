@@ -265,8 +265,6 @@ public class Tournament implements CARE
         for (Challenge xx: challengeList){
             s += xx.toString();
         }
-
-       
         return s;
     }
     
