@@ -3,7 +3,7 @@ package cwk4;
 public class WizardTester {
     public static void main(String[] args) {
         // Create a Wizard object
-        Wizard wizard1 = new Wizard("Merlin", 10, 50, true, "Elemental");
+        Wizard wizard1 = new Wizard("Merlin", 10, 50, false, "Sorcerer");
 
         // Print out the details of the wizard using toString method
         System.out.println("Details of Wizard 1:");
@@ -17,8 +17,8 @@ public class WizardTester {
         System.out.println(wizard1);
 
         // Create another Wizard object
-        Wizard wizard2 = new Wizard("Wololo", 8, 60, true,  "Necromancy");
-        Wizard wizard3 = new Wizard("NecroMaster", 8, 60, true,"Necromancy");
+        Wizard wizard2 = new Wizard("Wololo", 8, 60, true, "Dark");
+        Wizard wizard3 = new Wizard("NecroMaster", 8, 60, true, "Dark");
 
         // Print out the details of the second wizard
         System.out.println("\nDetails of Wizard 2:");
