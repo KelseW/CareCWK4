@@ -130,13 +130,14 @@ public class Tournament implements CARE
      **/
      public int enterChampion(String nme) {
          Champion champion = null;
+         int entryFee = champion.getEntryFee();
+
          for (Champion c : reserves) {
              if (c.getName().equals(nme)) {
                  champion = c;
                  break;
              }
          }
-         int entryFee = champion.getEntryFee();
          if (champion == null) {
              return -1; // No such champion
          }
@@ -151,9 +152,7 @@ public class Tournament implements CARE
 
          reserves.remove(champion);
          champions.add(champion);
-
          treasury -= entryFee;
-
          return 0; //Entered Vizier's team
      }
         
@@ -187,7 +186,7 @@ public class Tournament implements CARE
         }
         else{
             champ.setChampState(ChampionState.WAITING);
-            champions.remove(nme);
+            champions.remove(champ);
             treasury = treasury + (champ.getEntryFee() / 2);
             return 0;
         }

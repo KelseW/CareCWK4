@@ -70,6 +70,14 @@ public abstract class Champion implements Serializable{
         this.champState = champState;
     }
 
+    /**
+     * returns true is champion is active to fight
+     * @return
+     */
+    public boolean available(){
+        return champState == ChampionState.ENTERED;
+    }
+
     public abstract boolean canMeetChallenge(ChallengeType type);
 
     /**
