@@ -96,10 +96,9 @@ public class Tournament implements CARE
      * @return details of the champion with the given name
      **/
     public String getChampionDetails(String nme) {
-        for (Champion champion : champions) {
-            if (champion.getName().equals(nme)) {
-                return champion.toString();
-            }
+        Champion xx = getChamp(nme);
+        if(xx != null) {
+            return xx.toString();
         }
         return "\nNo such champion";
     }
