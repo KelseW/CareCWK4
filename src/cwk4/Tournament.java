@@ -14,7 +14,7 @@ public class Tournament implements CARE
     private String vizier;
     private ArrayList<Champion> champions;
     private ArrayList<Champion> reserves;
-    private int treasury;
+    private int treasury = 1000;
     private  ArrayList<Challenge> challengeList= new ArrayList<Challenge>();
     private  ArrayList<String> challengeListStr= new ArrayList<String>();
 
@@ -28,6 +28,7 @@ public class Tournament implements CARE
         reserves = new ArrayList<>();
         setupChampions();
         setupChallenges();
+        vizier = viz;
     }
 
     /** Constructor requires the name of the vizier and the
@@ -58,7 +59,12 @@ public class Tournament implements CARE
     {
         String s = "\nVizier: " + vizier ;
         s+="\nTreasury: "+treasury;
-        s+="\nDefeated: "+isDefeated();
+        s+="\nDefeated: ";
+        if (isDefeated()){
+            s+="Defeated";
+        }else {
+            s+="Is OK";
+        }
         s+="\nIn Team: "+getTeam();
 
         return s;
@@ -94,7 +100,7 @@ public class Tournament implements CARE
     {
         StringBuilder s = new StringBuilder("************ Champions in Reserve ********");
         for (Champion res : reserves) {
-            s.append(res.getName());
+            s.append("\n").append(res.getName());
         }
         return s.toString();
     }
@@ -118,7 +124,7 @@ public class Tournament implements CARE
      */
     public boolean isInReserve(String nme) {
         for (Champion champion : reserves) {
-            if (champion.getName().equals(nme)) {
+            if (champion.getName().equals(nme) && champion.getChampState()==ChampionState.WAITING) {
                 return true;
             }
         }
@@ -137,15 +143,9 @@ public class Tournament implements CARE
      * @return as shown above
      **/
      public int enterChampion(String nme) {
-         Champion champion = null;
+         Champion champion = getChamp(nme);
          int entryFee = champion.getEntryFee();
 
-         for (Champion c : reserves) {
-             if (c.getName().equals(nme)) {
-                 champion = c;
-                 break;
-             }
-         }
          if (champion == null) {
              return -1; // No such champion
          }
@@ -193,14 +193,16 @@ public class Tournament implements CARE
     public int retireChampion(String nme)
     {
         Champion champ = getChamp(nme);
-        if (champ == null){
+        if (!isInViziersTeam(nme)){
             return 2;
         } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if champion has been disqualified
             return 1;
-        }
-        else{
+        } else if (champ == null) {
+            return -1;
+        } else{
             champ.setChampState(ChampionState.WAITING);
             champions.remove(champ);
+            reserves.add(champ);
             treasury = treasury + (champ.getEntryFee() / 2);
             return 0;
         }
@@ -311,18 +313,18 @@ public class Tournament implements CARE
     //****************** private methods for Task 3 functionality*******************
     //*******************************************************************************
     private void setupChampions() {
-        champions.add(new Wizard("Ganfrank", 7, 400, true, "transmutation"));
-        champions.add(new Wizard("Rudolf", 6, 400, true, "invisibility"));
-        champions.add(new Warrior("Elblond", 1, 150, "sword"));
-        champions.add(new Warrior("Flimsi", 2, 200, "bow"));
-        champions.add(new Dragon("Drabina", 7, 500, false));
-        champions.add(new Dragon("Golum", 7, 500, true));
-        champions.add(new Warrior("Argon", 9, 900, "mace"));
-        champions.add(new Wizard("Neon", 2, 300, false, "translocation"));
-        champions.add(new Dragon("Xenon", 7, 500, true));
-        champions.add(new Warrior("Atlanta", 5, 500, "bow"));
-        champions.add(new Wizard("Krypton", 8, 300, false, "fireballs"));
-        champions.add(new Wizard("Hedwig", 1, 400, true, "flying"));
+        reserves.add(new Wizard("Ganfrank", 7, 400, true, "transmutation"));
+        reserves.add(new Wizard("Rudolf", 6, 400, true, "invisibility"));
+        reserves.add(new Warrior("Elblond", 1, 150, "sword"));
+        reserves.add(new Warrior("Flimsi", 2, 200, "bow"));
+        reserves.add(new Dragon("Drabina", 7, 500, false));
+        reserves.add(new Dragon("Golum", 7, 500, true));
+        reserves.add(new Warrior("Argon", 9, 900, "mace"));
+        reserves.add(new Wizard("Neon", 2, 300, false, "translocation"));
+        reserves.add(new Dragon("Xenon", 7, 500, true));
+        reserves.add(new Warrior("Atlanta", 5, 500, "bow"));
+        reserves.add(new Wizard("Krypton", 8, 300, false, "fireballs"));
+        reserves.add(new Wizard("Hedwig", 1, 400, true, "flying"));
     }
 
     private void setupChallenges()
@@ -354,6 +356,11 @@ public class Tournament implements CARE
 
     public Champion getChamp(String nme){
         for(Champion xx:champions){
+            if(xx.getName().equals(nme)){
+                return xx;
+            }
+        }
+        for(Champion xx:reserves){
             if(xx.getName().equals(nme)){
                 return xx;
             }
