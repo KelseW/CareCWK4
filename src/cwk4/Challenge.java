@@ -24,6 +24,14 @@ public class Challenge {
         return chalType;
     }
 
+    public boolean doChallenge(Champion champ){
+        if (champ != null) {
+            return this.skillLevel <= champ.getSkillLevel();
+        } else {
+            return false;
+        }
+    }
+
     public String getEnemy() {
         return enemy;
     }
