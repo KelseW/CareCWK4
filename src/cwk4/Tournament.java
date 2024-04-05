@@ -14,7 +14,7 @@ public class Tournament implements CARE
     private String vizier;
     private ArrayList<Champion> champions;
     private ArrayList<Champion> reserves;
-    private int treasury;
+    private int treasury = 1000;
     private  ArrayList<Challenge> challengeList= new ArrayList<Challenge>();
     private  ArrayList<String> challengeListStr= new ArrayList<String>();
 
@@ -24,6 +24,7 @@ public class Tournament implements CARE
      */
     public Tournament(String viz)
     {
+        this.vizier = viz;
         champions = new ArrayList<>();
         reserves = new ArrayList<>();
         setupChampions();
