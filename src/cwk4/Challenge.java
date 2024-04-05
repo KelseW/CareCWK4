@@ -44,4 +44,14 @@ public class Challenge {
         return reward;
     }
 
+    public String toString(){
+        String s  = "";
+        s += "\nChallenge No: " + this.chalNo;
+        s += "\nThe challenge type is: " + chalType.toString();
+        s += "\nThe Enemy is: " + enemy;
+        s += "\nThe skill level is: " + skillLevel;
+        s += "\nThe reward is: " + reward;
+        return s;
+    }
+
 }
