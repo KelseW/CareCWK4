@@ -32,7 +32,7 @@ public abstract class Champion implements Serializable{
      *
      * @return name
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -68,6 +68,14 @@ public abstract class Champion implements Serializable{
      */
     public void setChampState(ChampionState champState) {
         this.champState = champState;
+    }
+
+    /**
+     * returns true is champion is active to fight
+     * @return
+     */
+    public boolean available(){
+        return champState == ChampionState.ENTERED;
     }
 
     public abstract boolean canMeetChallenge(ChallengeType type);
