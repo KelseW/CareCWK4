@@ -306,7 +306,26 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
+        Challenge chal = this.getSpecificChallenge(chalNo);
+        if (chal != null) {
+            Champion fighter = this.getChampionForChallenge(chalNo);
+            boolean result = chal.doChallenge(fighter);
+            if (fighter == null) {
+                this.treasury -= chal.getReward();
+                outcome = 2;
+            } else if (result) {
+                this.treasury += chal.getReward();
+                outcome = 0;
+            } else {
+                this.treasury -= chal.getReward();
+                fighter.setChampState(ChampionState.DISQUALIFIED);
+                outcome = 1;
+            }
 
+            if (this.isDefeated()) {
+                outcome = 3;
+            }
+        }
         return outcome;
     }
 
