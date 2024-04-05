@@ -198,7 +198,7 @@ public class T5MeetChallengeTest {
     
     @Test
     public void warriorFacingMagicNotAllowedMoneyDeducted() {
-        int expected = 0;
+        int expected = 1000-900-100;
         game.enterChampion("Argon");
         game.meetChallenge(1);
         int actual = game.getMoney();
@@ -260,9 +260,108 @@ public class T5MeetChallengeTest {
     }
     
     //Dragons - write your own tests
-    
-  
-    
-    
+    @Test
+    public void dragonFacingMagicNotAllowed() {
+        int expected = 2;
+        game.enterChampion("Drabina");
+        game.meetChallenge(1);
+        int actual = game.meetChallenge(1);
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    public void dragonFacingMagicNotAllowedMoneyDeducted() {
+        int expected = 1000-500-100;
+        game.enterChampion("Drabina");
+        game.meetChallenge(1);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void dragonFacingFightAllowedWins() {
+        int expected = 0;
+        game.enterChampion("Drabina");
+        int actual = game.meetChallenge(0);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedWinsMoneyAdded() {
+        int expected = 1000-500+120;
+        game.enterChampion("Drabina");
+        game.meetChallenge(2);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedLosesOnSkill() {
+        int expected = 1;
+        game.enterChampion("Drabina");
+        int actual = game.meetChallenge(8);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedLosesMoneyDeducted() {
+        int expected = 1000-500-170;
+        game.enterChampion("Drabina");
+        game.meetChallenge(8);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryNotAllowed() {
+        int expected = 2;
+        game.enterChampion("Drabina");
+        game.meetChallenge(3);
+        int actual = game.meetChallenge(3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryNotAllowedMoneyDeducted() {
+        int expected = 1000-500-150;
+        game.enterChampion("Drabina");
+        game.meetChallenge(3);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryAllowedWins() {
+        int expected = 0;
+        game.enterChampion("Golum");
+        game.meetChallenge(3);
+        int actual = game.meetChallenge(3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryAllowedWinsMoneyAdded() {
+        int expected = 1000-500+150;
+        game.enterChampion("Golum");
+        game.meetChallenge(3);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryAllowedLosesOnSkill() {
+        int expected = 1;
+        game.enterChampion("Golum");
+        int actual = game.meetChallenge(9);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMysteryAllowedLosesMoneyDeducted() {
+        int expected = 1000-500-300;
+        game.enterChampion("Golum");
+        game.meetChallenge(9);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
 }

@@ -49,7 +49,7 @@ public class GameUI
                     System.out.println(tr.getChampionDetails(champ));
                 } 
                 else if (choice == 4)
-                //4 = enter champion into viziers team
+                //4 = enter champion into viziers teamshi
                 {   
                     System.out.println("Enter Champion name");
                     String champ = myIn.nextLine();
