@@ -25,11 +25,11 @@ public class Challenge {
         return chalType;
     } //returns the challenge type
 
-    public boolean doChallenge(Champion champ){
+    public boolean doChallenge(Champion champ){ //checks if vizier is able to compete in a challenge
         if (champ != null) {
-            return this.skillLevel <= champ.getSkillLevel();
+            return this.skillLevel <= champ.getSkillLevel();//if both queries true, return true
         } else {
-            return false;
+            return false; //else return false
         }
     }
 
