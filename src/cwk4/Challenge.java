@@ -53,6 +53,6 @@ public class Challenge {
         s += "\nThe skill level is: " + skillLevel;
         s += "\nThe reward is: " + reward;
         return s;
-    }
+    } //returns a string of all variables from class
 
 }
