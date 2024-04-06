@@ -24,6 +24,7 @@ public class Tournament implements CARE
      */
     public Tournament(String viz)
     {
+        this.vizier = viz;
         champions = new ArrayList<>();
         reserves = new ArrayList<>();
         setupChampions();
@@ -100,7 +101,7 @@ public class Tournament implements CARE
     {
         StringBuilder s = new StringBuilder("************ Champions in Reserve ********");
         for (Champion res : reserves) {
-            s.append("\n").append(res.getName());
+            s.append("\n").append(res.toString());
         }
         return s.toString();
     }
@@ -144,25 +145,24 @@ public class Tournament implements CARE
      **/
      public int enterChampion(String nme) {
          Champion champion = getChamp(nme);
-         int entryFee = champion.getEntryFee();
 
-         if (champion == null) {
-             return -1; // No such champion
+         if (champion != null) {
+             int entryFee = champion.getEntryFee();
+             if (isInViziersTeam(champion.getName())) {
+                 return 1;
+             } else if (treasury < entryFee) {
+                 return 2; //Not enough guld
+             } else {
+                 reserves.remove(champion);
+                 champions.add(champion);
+                 treasury -= entryFee;
+                 champion.setChampState(ChampionState.ENTERED);
+                 return 0; //Entered Vizier's team
+             }
          }
-
-
-        if (champions.contains(champion)) {
-            return 0; // Is in Vizier team
-        }
-
-        if (treasury < entryFee) {
-            return 2; //Not enough guld
-        }
-
-         reserves.remove(champion);
-         champions.add(champion);
-         treasury -= entryFee;
-         return 0; //Entered Vizier's team
+         else{
+             return -1;
+         }
      }
         
      /** Returns true if the champion with the name is in
@@ -251,7 +251,7 @@ public class Tournament implements CARE
      **/
     public boolean isChallenge(int num)
     {
-        return (false);
+        return num > 0 && num <= challengeList.size();
     }
 
     /** Provides a String representation of an challenge given by
@@ -263,7 +263,7 @@ public class Tournament implements CARE
     public String getChallenge(int num)
     {
         if(isChallenge(num)) {
-            return challengeList.get(num - 1).toString();
+            return getSpecificChallenge(num).toString();
         }
         return "Challenge does not exist";
     }
@@ -305,7 +305,26 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
+        Challenge chal = this.getSpecificChallenge(chalNo);
+        if (chal != null) {
+            Champion fighter = this.getChampionForChallenge(chalNo);
+            boolean result = chal.doChallenge(fighter);
+            if (fighter == null) {
+                this.treasury -= chal.getReward();
+                outcome = 2;
+            } else if (result) {
+                this.treasury += chal.getReward();
+                outcome = 0;
+            } else {
+                this.treasury -= chal.getReward();
+                fighter.setChampState(ChampionState.DISQUALIFIED);
+                outcome = 1;
+            }
 
+            if (this.isDefeated()) {
+                outcome = 3;
+            }
+        }
         return outcome;
     }
 
@@ -360,9 +379,9 @@ public class Tournament implements CARE
                 return xx;
             }
         }
-        for(Champion xx:reserves){
-            if(xx.getName().equals(nme)){
-                return xx;
+        for(Champion yy:reserves){
+            if(yy.getName().equals(nme)){
+                return yy;
             }
         }
         return null;

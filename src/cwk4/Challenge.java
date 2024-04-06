@@ -25,6 +25,14 @@ public class Challenge {
         return chalType;
     } //returns the challenge type
 
+    public boolean doChallenge(Champion champ){
+        if (champ != null) {
+            return this.skillLevel <= champ.getSkillLevel();
+        } else {
+            return false;
+        }
+    }
+
     public String getEnemy() {
         return enemy;
     } //returns the enemy of the challenge
@@ -36,5 +44,15 @@ public class Challenge {
     public int getReward() {
         return reward;
     } //returns the reward of winning the challenge
+
+    public String toString(){
+        String s  = "";
+        s += "\nChallenge No: " + this.chalNo;
+        s += "\nThe challenge type is: " + chalType.toString();
+        s += "\nThe Enemy is: " + enemy;
+        s += "\nThe skill level is: " + skillLevel;
+        s += "\nThe reward is: " + reward;
+        return s;
+    }
 
 }
