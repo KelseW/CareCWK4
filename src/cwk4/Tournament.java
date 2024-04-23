@@ -40,7 +40,10 @@ public class Tournament implements CARE
     public Tournament(String viz, String filename)  //Task 3.5
     {
 
-
+        this.vizier = viz;
+        champions = new ArrayList<>();
+        reserves = new ArrayList<>();
+        vizier = viz;
         setupChampions();
         readChallenges(filename);
     }
@@ -254,7 +257,7 @@ public class Tournament implements CARE
         return num > 0 && num <= challengeList.size();
     }
 
-    /** Provides a String representation of an challenge given by
+    /** Provides a String representation of a challenge given by
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by
@@ -468,8 +471,14 @@ public class Tournament implements CARE
      */
     public Tournament loadGame(String fname)
     {   // uses object serialisation
-        Tournament yyy = null;
-
+        Tournament yyy;
+        try{
+            FileInputStream loadFile = new FileInputStream(fname);
+            ObjectInputStream loadObject = new ObjectInputStream(loadFile);
+            yyy = (Tournament) loadObject.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return yyy;
     }
 
@@ -477,7 +486,16 @@ public class Tournament implements CARE
      * @param fname name of file storing requests
      */
     public void saveGame(String fname){
-        // uses object serialisation 
+        // uses object serialisation
+        try {
+            FileOutputStream saveFile = new FileOutputStream(fname);
+            ObjectOutputStream saveObject = new ObjectOutputStream(saveFile);
+            saveObject.writeObject(this);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
