@@ -117,6 +117,9 @@ public class Tournament implements CARE
     public String getChampionDetails(String nme) {
         Champion xx = getChamp(nme);
         if(xx != null) {
+            if (xx.getChampState() == ChampionState.DISQUALIFIED) {
+                return xx.toString() + "\nStatus: Disqualified";
+            }
             return xx.toString();
         }
         return "\nNo such champion";
@@ -304,32 +307,27 @@ public class Tournament implements CARE
      * @param chalNo is the number of the challenge
      * @return an int showing the result(as above) of fighting the challenge
      */
-    public int meetChallenge(int chalNo)
-    {
-        //Nothing said about accepting challenges when bust
-        int outcome = -1 ;
-        Challenge chal = this.getSpecificChallenge(chalNo);
+    public int meetChallenge(int chalNo) {
+        Challenge chal = getSpecificChallenge(chalNo);
         if (chal != null) {
-            Champion fighter = this.getChampionForChallenge(chalNo);
+            Champion fighter = getChampionForChallenge(chalNo);
             boolean result = chal.doChallenge(fighter);
             if (fighter == null) {
                 this.treasury -= chal.getReward();
-                outcome = 2;
+                return 2;
             } else if (result) {
                 this.treasury += chal.getReward();
-                outcome = 0;
+                return 0;
             } else {
                 this.treasury -= chal.getReward();
                 fighter.setChampState(ChampionState.DISQUALIFIED);
-                outcome = 1;
-            }
-
-            if (this.isDefeated()) {
-                outcome = 3;
+                return 1;
             }
         }
-        return outcome;
+        return -1;
     }
+
+
 
 
     //****************** private methods for Task 3 functionality*******************
@@ -489,6 +487,8 @@ public class Tournament implements CARE
         return yyy;
     }
 
+
+
     /** Writes whole game to the specified file
      * @param fname name of file storing requests
      */
@@ -505,6 +505,7 @@ public class Tournament implements CARE
 
 
     }
+
 
 
 }

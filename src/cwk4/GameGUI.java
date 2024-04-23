@@ -37,23 +37,34 @@ public class GameGUI
     /**
      * Create the Swing frame and its content.
      */
-    private void makeFrame()
-    {    
+    private void makeFrame() {
         myFrame.setLayout(new BorderLayout());
-        myFrame.add(listing,BorderLayout.CENTER);
-        listing.setVisible(false);
+        myFrame.add(listing, BorderLayout.CENTER);
+        listing.setEditable(false); // Ensure JTextArea is not editable
         myFrame.add(eastPanel, BorderLayout.EAST);
-        // set panel layout and add components
-        eastPanel.setLayout(new GridLayout(4,1));
+
+        // Set panel layout and add components
+        eastPanel.setLayout(new GridLayout(5, 1)); // Increased to 5 for additional View State button
         eastPanel.add(meetBtn);
+        eastPanel.add(viewBtn); // Add view state button
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
+
 
         eastPanel.add(viewBtn);
         
         clearBtn.addActionListener(new ClearBtnHandler());
+
+        // Set action listeners for buttons
+        clearBtn.addActionListener(e -> listing.setText(""));
+
         meetBtn.addActionListener(new MeetBtnHandler());
+        viewBtn.addActionListener(e -> {
+            listing.setText(gp.toString());
+            listing.setVisible(true);
+        });
         quitBtn.addActionListener(new QuitBtnHandler());
+
 
 
         viewBtn.addActionListener(new ViewButtonHandler());
@@ -65,6 +76,10 @@ public class GameGUI
         viewBtn.setVisible(true);
 
         // building is done - arrange the components and show        
+
+        // Building is done - arrange the components and show
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application closes properly
+
         myFrame.pack();
         myFrame.setVisible(true);
     }
@@ -72,18 +87,14 @@ public class GameGUI
     /**
      * Create the main frame's menu bar.
      */
-    private void makeMenuBar(JFrame frame)
-    {
+    private void makeMenuBar(JFrame frame) {
         JMenuBar menubar = new JMenuBar();
         frame.setJMenuBar(menubar);
-        
-        // create the File menu
+
+        // Create the Champions menu
         JMenu championMenu = new JMenu("Champions");
         menubar.add(championMenu);
-        
-        JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
-        listChampionItem.addActionListener(new ListReserveHandler());
-        championMenu.add(listChampionItem);
+
 
         JMenuItem viewChampion = new JMenuItem("View a champion");
         viewChampion.addActionListener(new viewChamphandler());
@@ -96,6 +107,34 @@ public class GameGUI
         JMenuItem listTeam = new JMenuItem("List champions in team");
         championMenu.add(listTeam);
         listTeam.addActionListener(new listTeamHandler());
+
+        JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
+        JMenuItem listTeamItem = new JMenuItem("List Team");
+        JMenuItem viewChampionItem = new JMenuItem("View Champion");
+        JMenuItem enterChampionItem = new JMenuItem("Enter Champion");
+
+        championMenu.add(listChampionItem);
+
+
+        listChampionItem.addActionListener(new ListReserveHandler());
+        listTeamItem.addActionListener(e -> {
+            listing.setText(gp.getTeam());
+            listing.setVisible(true);
+        });
+
+
+        // Create the Challenges menu
+        JMenu challengesMenu = new JMenu("Challenges");
+        menubar.add(challengesMenu);
+
+        JMenuItem listChallengesItem = new JMenuItem("List All Challenges");
+        challengesMenu.add(listChallengesItem);
+
+        listChallengesItem.addActionListener(e -> {
+            listing.setText(gp.getAllChallenges());
+            listing.setVisible(true);
+        });
+
     }
 
     private class ListReserveHandler implements ActionListener
@@ -119,7 +158,7 @@ public class GameGUI
     
     private class MeetBtnHandler implements ActionListener
     {
-        public void actionPerformed(ActionEvent e) 
+        public void actionPerformed(ActionEvent e)
         { 
             int result = -1;
             String answer = "no such challenge";
