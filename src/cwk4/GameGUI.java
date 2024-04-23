@@ -77,9 +77,19 @@ public class GameGUI
         listChampionItem.addActionListener(new ListReserveHandler());
         championMenu.add(listChampionItem);
 
- 
+        JMenuItem viewChampion = new JMenuItem("View a champion");
+        viewChampion.addActionListener(new viewChamphandler());
+        championMenu.add(viewChampion);
+
+        JMenuItem enterChamp = new JMenuItem("Enter a champion");
+        enterChamp.addActionListener(new enterChampionHandler());
+        championMenu.add(enterChamp);
+
+        JMenuItem listTeam = new JMenuItem("List champions in team");
+        championMenu.add(listTeam);
+        listTeam.addActionListener(new listTeamHandler());
     }
-    
+
     private class ListReserveHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent e) 
@@ -132,6 +142,47 @@ public class GameGUI
             {
                 System.exit(0); //closes the application
             }              
+        }
+    }
+
+    private class viewChamphandler implements ActionListener{
+
+        public void actionPerformed(ActionEvent e){
+            String champName = JOptionPane.showInputDialog("Enter the champion name: ");
+            String xx = GameGUI.this.gp.getChampionDetails(champName);
+            JOptionPane.showMessageDialog(GameGUI.this.myFrame, xx);
+        }
+    }
+
+    private class enterChampionHandler implements ActionListener{
+
+        public void actionPerformed(ActionEvent e){
+            StringBuilder result = new StringBuilder();
+            String champName = JOptionPane.showInputDialog("Enter Champion name: ");
+            int returnValue = GameGUI.this.gp.enterChampion(champName);
+            if(returnValue==0){
+                result.append("Champion entered into team");
+            }
+            else if(returnValue==1){
+                result.append("Champion not in reserve");
+            }
+            else if(returnValue==2){
+                result.append("You dont have enough money");
+            }
+            else{
+                result.append("No such Champion");
+            }
+            result.append("\\nTreasury = £\"" + GameGUI.this.gp.getMoney());
+            JOptionPane.showMessageDialog(GameGUI.this.myFrame, result);
+        }
+    }
+
+    private class listTeamHandler implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+            GameGUI.this.listing.setVisible(true);
+            String xx = GameGUI.this.gp.getTeam();
+            GameGUI.this.listing.setText(xx);
         }
     }
     
