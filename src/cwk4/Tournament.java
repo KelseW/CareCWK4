@@ -439,17 +439,14 @@ public class Tournament implements CARE
         int challengeNum = challengeListStr.size();
         for (int num = 0; num < challengeListStr.size(); num++) {
             ArrayList<String> challengeFields = getStrings(num);
-            ChallengeType xx = switch (challengeFields.get(0)) {
+            ChallengeType chalEnum = switch (challengeFields.get(0)) {
                 case "Magic" -> ChallengeType.MAGIC;
                 case "Fight" -> ChallengeType.FIGHT;
                 case "Mystery" -> ChallengeType.MYSTERY;
                 default -> null;
             };
 
-            System.out.println(num);
-            System.out.println(challengeListStr);
-            System.out.println(challengeFields);
-            challengeList.add(new Challenge(num, xx,
+            challengeList.add(new Challenge(num, chalEnum,
                     challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
                     , Integer.parseInt(challengeFields.get(3))));
         }
