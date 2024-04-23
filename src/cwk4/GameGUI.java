@@ -48,17 +48,22 @@ public class GameGUI
         eastPanel.add(meetBtn);
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
+
         eastPanel.add(viewBtn);
         
         clearBtn.addActionListener(new ClearBtnHandler());
         meetBtn.addActionListener(new MeetBtnHandler());
         quitBtn.addActionListener(new QuitBtnHandler());
+
+
         viewBtn.addActionListener(new ViewButtonHandler());
         
         meetBtn.setVisible(true);
         clearBtn.setVisible(true);
         quitBtn.setVisible(true);
+
         viewBtn.setVisible(true);
+
         // building is done - arrange the components and show        
         myFrame.pack();
         myFrame.setVisible(true);
@@ -137,6 +142,8 @@ public class GameGUI
             }              
         }
     }
+
+
 
     private class ViewButtonHandler implements ActionListener
     {
