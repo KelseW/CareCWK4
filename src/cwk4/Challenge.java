@@ -1,14 +1,15 @@
 package cwk4;
 
 public class Challenge {
-    private int chalNo;
-    private ChallengeType chalType;
-    private int skillLevel;
-    private boolean result;
-    private int reward;
-    private String enemy;
+    private int chalNo;//int typ for the number of challenge
+    private ChallengeType chalType; //creates enum for the challenge type
+    private int skillLevel;//int type for skill level required for challenge
+    private boolean result; //boolean for result of a challenge
+    private int reward; //int type for what the reward of the challenge is
+    private String enemy; // String for the name of the enemy in the challenge
 
     public Challenge(int chalNo, ChallengeType chalType, String enemy, int skillLevel, int reward) {
+        //constructor class assigns each variable inputted to its respective variable in the class
         this.chalNo = chalNo;
         this.chalType = chalType;
         this.enemy = enemy;
@@ -18,31 +19,31 @@ public class Challenge {
 
     public int getChalNo() {
         return chalNo;
-    }
+    }//returns the challenge number
 
     public ChallengeType getChallengeType() {
         return chalType;
-    }
+    } //returns the challenge type
 
-    public boolean doChallenge(Champion champ){
+    public boolean doChallenge(Champion champ){ //checks if vizier is able to compete in a challenge
         if (champ != null) {
-            return this.skillLevel <= champ.getSkillLevel();
+            return this.skillLevel <= champ.getSkillLevel();//if both queries true, return true
         } else {
-            return false;
+            return false; //else return false
         }
     }
 
     public String getEnemy() {
         return enemy;
-    }
+    } //returns the enemy of the challenge
 
     public int getSkillLevel() {
         return skillLevel;
-    }
+    } //returns the skill level of the enemy
 
     public int getReward() {
         return reward;
-    }
+    } //returns the reward of winning the challenge
 
     public String toString(){
         String s  = "";
@@ -52,6 +53,6 @@ public class Challenge {
         s += "\nThe skill level is: " + skillLevel;
         s += "\nThe reward is: " + reward;
         return s;
-    }
+    } //returns a string of all variables from class
 
 }
