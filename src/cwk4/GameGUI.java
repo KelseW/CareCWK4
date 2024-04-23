@@ -96,8 +96,6 @@ public class GameGUI
         JMenuItem listTeam = new JMenuItem("List champions in team");
         championMenu.add(listTeam);
         listTeam.addActionListener(new listTeamHandler());
-
-
     }
 
     private class ListReserveHandler implements ActionListener
@@ -183,7 +181,9 @@ public class GameGUI
                 result.append("No such Champion");
             }
 
+
             result.append("\nTreasury = £" + GameGUI.this.gp.getMoney());
+
 
 
             JOptionPane.showMessageDialog(GameGUI.this.myFrame, result);
@@ -199,6 +199,7 @@ public class GameGUI
         }
     }
 
+
     private class ViewButtonHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
@@ -206,6 +207,7 @@ public class GameGUI
             JOptionPane.showMessageDialog(myFrame,result);
         }
     }
+
 
 }
    
