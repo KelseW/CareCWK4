@@ -280,10 +280,10 @@ public class T5MeetChallengeTest {
     
     @Test
     public void dragonFacingFightAllowedWins() {
-        int expected = 0;
         game.enterChampion("Drabina");
-        int actual = game.meetChallenge(0);
-        assertEquals(expected, actual);
+        int actualResult = game.meetChallenge(2);
+        int expectedResult = 0;
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
