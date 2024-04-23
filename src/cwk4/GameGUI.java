@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class GameGUI 
 {
-    private CARE gp = new Tournament("Fred");
+    private CARE gp = new Tournament("Fred", "challengesAM.txt");
     private JFrame myFrame = new JFrame("Game GUI");
     private JTextArea listing = new JTextArea();
     private JLabel codeLabel = new JLabel ();
@@ -48,14 +48,17 @@ public class GameGUI
         eastPanel.add(meetBtn);
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
+        eastPanel.add(viewBtn);
         
         clearBtn.addActionListener(new ClearBtnHandler());
         meetBtn.addActionListener(new MeetBtnHandler());
         quitBtn.addActionListener(new QuitBtnHandler());
+        viewBtn.addActionListener(new ViewButtonHandler());
         
         meetBtn.setVisible(true);
         clearBtn.setVisible(true);
         quitBtn.setVisible(true);
+        viewBtn.setVisible(true);
         // building is done - arrange the components and show        
         myFrame.pack();
         myFrame.setVisible(true);
@@ -132,6 +135,14 @@ public class GameGUI
             {
                 System.exit(0); //closes the application
             }              
+        }
+    }
+
+    private class ViewButtonHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) {
+            String result = gp.toString();
+            JOptionPane.showMessageDialog(myFrame,result);
         }
     }
     

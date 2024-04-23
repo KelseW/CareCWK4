@@ -439,29 +439,40 @@ public class Tournament implements CARE
         int challengeNum = challengeListStr.size();
         Challenge[] allChallenges = new Challenge[challengeNum];
         for (int num = 0; num < challengeListStr.size(); num++) {
-            String toBeArray = challengeListStr.get(num);
-            int counter = 0;
-            StringBuilder word = new StringBuilder();
-            char breaker = ',';
-            ArrayList<String> challengeFields = new ArrayList<String>();
-            while (counter != toBeArray.length()) {
+            ArrayList<String> challengeFields = getStrings(num);
+            ChallengeType xx = switch (challengeFields.get(0)) {
+                case "Magic" -> ChallengeType.MAGIC;
+                case "Fight" -> ChallengeType.FIGHT;
+                case "Mystery" -> ChallengeType.MYSTERY;
+                default -> null;
+            };
 
-                char letter = toBeArray.charAt(counter);
-
-                if (letter == breaker) {
-                    challengeFields.add(word.toString());
-                    word = new StringBuilder();
-                    counter += 1;
-                } else {
-                    word.append(Character.toString(letter));
-                    counter += 1;
-                }
-            }
-            ChallengeType.valueOf(challengeFields.get(0));
-            allChallenges[num] = new Challenge(num, ChallengeType.valueOf(challengeFields.get(0)),
+            System.out.println(num);
+            System.out.println(challengeListStr);
+            System.out.println(challengeFields);
+            new Challenge(num, xx,
                     challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
                     , Integer.parseInt(challengeFields.get(3)));
         }
+    }
+
+    private ArrayList<String> getStrings(int num) {
+        String toBeArray = challengeListStr.get(num);
+        int counter = 0;
+        StringBuilder word = new StringBuilder();
+        char breaker = ',';
+        ArrayList<String> challengeFields = new ArrayList<String>();
+        while (counter != toBeArray.length()) {
+            char letter = toBeArray.charAt(counter);
+            if (letter == breaker) {
+                challengeFields.add(word.toString());
+                word = new StringBuilder();
+            } else {
+                word.append(Character.toString(letter));
+            }
+            counter += 1;
+        }
+        return challengeFields;
     }
 
     /** reads all information about the game from the specified file

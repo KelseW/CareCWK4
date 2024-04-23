@@ -6,5 +6,5 @@ Mystery,Borg ,7,90,
 Fight,Goths,8,45,   
 Magic,Franks,10,200,   
 Fight,Sith,10,150, 
-Mystery,Cardashian,9,300
-Fight,Jute,2,300
+Mystery,Cardashian,9,300,
+Fight,Jute,2,300,
