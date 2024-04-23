@@ -224,7 +224,7 @@ public class Tournament implements CARE
             return "\nNo champions entered";
         }
         for(Champion champ: champions){
-            s.append(champ.toString());
+            s.append("\n"+champ.toString());
         }
         return s.toString();
     }
