@@ -437,7 +437,6 @@ public class Tournament implements CARE
             return;
         }
         int challengeNum = challengeListStr.size();
-        Challenge[] allChallenges = new Challenge[challengeNum];
         for (int num = 0; num < challengeListStr.size(); num++) {
             ArrayList<String> challengeFields = getStrings(num);
             ChallengeType xx = switch (challengeFields.get(0)) {
@@ -450,9 +449,9 @@ public class Tournament implements CARE
             System.out.println(num);
             System.out.println(challengeListStr);
             System.out.println(challengeFields);
-            new Challenge(num, xx,
+            challengeList.add(new Challenge(num, xx,
                     challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
-                    , Integer.parseInt(challengeFields.get(3)));
+                    , Integer.parseInt(challengeFields.get(3))));
         }
     }
 
