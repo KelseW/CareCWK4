@@ -21,7 +21,7 @@ public class Warrior extends Champion {
 
     @Override
     public String toString() {
-        return super.toString() + "The weapon type is " + weaponType;
+        return "\nWarrior"+super.toString() + "\nThe weapon type is " + weaponType;
     }
 
 }

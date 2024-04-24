@@ -14,7 +14,7 @@ public class Tournament implements CARE
     private String vizier;
     private ArrayList<Champion> champions;
     private ArrayList<Champion> reserves;
-    private int treasury;
+    private int treasury = 1000;
     private  ArrayList<Challenge> challengeList= new ArrayList<Challenge>();
     private  ArrayList<String> challengeListStr= new ArrayList<String>();
 
@@ -24,10 +24,12 @@ public class Tournament implements CARE
      */
     public Tournament(String viz)
     {
+        this.vizier = viz;
         champions = new ArrayList<>();
         reserves = new ArrayList<>();
         setupChampions();
         setupChallenges();
+        vizier = viz;
     }
 
     /** Constructor requires the name of the vizier and the
@@ -38,7 +40,10 @@ public class Tournament implements CARE
     public Tournament(String viz, String filename)  //Task 3.5
     {
 
-
+        this.vizier = viz;
+        champions = new ArrayList<>();
+        reserves = new ArrayList<>();
+        vizier = viz;
         setupChampions();
         readChallenges(filename);
     }
@@ -58,7 +63,12 @@ public class Tournament implements CARE
     {
         String s = "\nVizier: " + vizier ;
         s+="\nTreasury: "+treasury;
-        s+="\nDefeated: "+isDefeated();
+        s+="\nDefeated: ";
+        if (isDefeated()){
+            s+="Defeated";
+        }else {
+            s+="Is OK";
+        }
         s+="\nIn Team: "+getTeam();
 
         return s;
@@ -94,7 +104,7 @@ public class Tournament implements CARE
     {
         StringBuilder s = new StringBuilder("************ Champions in Reserve ********");
         for (Champion res : reserves) {
-            s.append(res.getName());
+            s.append("\n").append(res.toString());
         }
         return s.toString();
     }
@@ -118,7 +128,7 @@ public class Tournament implements CARE
      */
     public boolean isInReserve(String nme) {
         for (Champion champion : reserves) {
-            if (champion.getName().equals(nme)) {
+            if (champion.getName().equals(nme) && champion.getChampState()==ChampionState.WAITING) {
                 return true;
             }
         }
@@ -137,32 +147,25 @@ public class Tournament implements CARE
      * @return as shown above
      **/
      public int enterChampion(String nme) {
-         Champion champion = null;
-         int entryFee = champion.getEntryFee();
+         Champion champion = getChamp(nme);
 
-         for (Champion c : reserves) {
-             if (c.getName().equals(nme)) {
-                 champion = c;
-                 break;
+         if (champion != null) {
+             int entryFee = champion.getEntryFee();
+             if (isInViziersTeam(champion.getName())) {
+                 return 1;
+             } else if (treasury < entryFee) {
+                 return 2; //Not enough guld
+             } else {
+                 reserves.remove(champion);
+                 champions.add(champion);
+                 treasury -= entryFee;
+                 champion.setChampState(ChampionState.ENTERED);
+                 return 0; //Entered Vizier's team
              }
          }
-         if (champion == null) {
-             return -1; // No such champion
+         else{
+             return -1;
          }
-
-
-        if (champions.contains(champion)) {
-            return 0; // Is in Vizier team
-        }
-
-        if (treasury < entryFee) {
-            return 2; //Not enough guld
-        }
-
-         reserves.remove(champion);
-         champions.add(champion);
-         treasury -= entryFee;
-         return 0; //Entered Vizier's team
      }
         
      /** Returns true if the champion with the name is in
@@ -193,14 +196,16 @@ public class Tournament implements CARE
     public int retireChampion(String nme)
     {
         Champion champ = getChamp(nme);
-        if (champ == null){
+        if (!isInViziersTeam(nme)){
             return 2;
         } else if (champ.getChampState() == ChampionState.DISQUALIFIED) { //checks if champion has been disqualified
             return 1;
-        }
-        else{
+        } else if (champ == null) {
+            return -1;
+        } else{
             champ.setChampState(ChampionState.WAITING);
             champions.remove(champ);
+            reserves.add(champ);
             treasury = treasury + (champ.getEntryFee() / 2);
             return 0;
         }
@@ -219,7 +224,7 @@ public class Tournament implements CARE
             return "\nNo champions entered";
         }
         for(Champion champ: champions){
-            s.append(champ.toString());
+            s.append("\n"+champ.toString());
         }
         return s.toString();
     }
@@ -249,10 +254,10 @@ public class Tournament implements CARE
      **/
     public boolean isChallenge(int num)
     {
-        return (false);
+        return num > 0 && num <= challengeList.size();
     }
 
-    /** Provides a String representation of an challenge given by
+    /** Provides a String representation of a challenge given by
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by
@@ -261,7 +266,7 @@ public class Tournament implements CARE
     public String getChallenge(int num)
     {
         if(isChallenge(num)) {
-            return challengeList.get(num - 1).toString();
+            return getSpecificChallenge(num).toString();
         }
         return "Challenge does not exist";
     }
@@ -303,7 +308,26 @@ public class Tournament implements CARE
     {
         //Nothing said about accepting challenges when bust
         int outcome = -1 ;
+        Challenge chal = this.getSpecificChallenge(chalNo);
+        if (chal != null) {
+            Champion fighter = this.getChampionForChallenge(chalNo);
+            boolean result = chal.doChallenge(fighter);
+            if (fighter == null) {
+                this.treasury -= chal.getReward();
+                outcome = 2;
+            } else if (result) {
+                this.treasury += chal.getReward();
+                outcome = 0;
+            } else {
+                this.treasury -= chal.getReward();
+                fighter.setChampState(ChampionState.DISQUALIFIED);
+                outcome = 1;
+            }
 
+            if (this.isDefeated()) {
+                outcome = 3;
+            }
+        }
         return outcome;
     }
 
@@ -311,18 +335,18 @@ public class Tournament implements CARE
     //****************** private methods for Task 3 functionality*******************
     //*******************************************************************************
     private void setupChampions() {
-        champions.add(new Wizard("Ganfrank", 7, 400, true, "transmutation"));
-        champions.add(new Wizard("Rudolf", 6, 400, true, "invisibility"));
-        champions.add(new Warrior("Elblond", 1, 150, "sword"));
-        champions.add(new Warrior("Flimsi", 2, 200, "bow"));
-        champions.add(new Dragon("Drabina", 7, 500, false));
-        champions.add(new Dragon("Golum", 7, 500, true));
-        champions.add(new Warrior("Argon", 9, 900, "mace"));
-        champions.add(new Wizard("Neon", 2, 300, false, "translocation"));
-        champions.add(new Dragon("Xenon", 7, 500, true));
-        champions.add(new Warrior("Atlanta", 5, 500, "bow"));
-        champions.add(new Wizard("Krypton", 8, 300, false, "fireballs"));
-        champions.add(new Wizard("Hedwig", 1, 400, true, "flying"));
+        reserves.add(new Wizard("Ganfrank", 7, 400, true, "transmutation"));
+        reserves.add(new Wizard("Rudolf", 6, 400, true, "invisibility"));
+        reserves.add(new Warrior("Elblond", 1, 150, "sword"));
+        reserves.add(new Warrior("Flimsi", 2, 200, "bow"));
+        reserves.add(new Dragon("Drabina", 7, 500, false));
+        reserves.add(new Dragon("Golum", 7, 500, true));
+        reserves.add(new Warrior("Argon", 9, 900, "mace"));
+        reserves.add(new Wizard("Neon", 2, 300, false, "translocation"));
+        reserves.add(new Dragon("Xenon", 7, 500, true));
+        reserves.add(new Warrior("Atlanta", 5, 500, "bow"));
+        reserves.add(new Wizard("Krypton", 8, 300, false, "fireballs"));
+        reserves.add(new Wizard("Hedwig", 1, 400, true, "flying"));
     }
 
     private void setupChallenges()
@@ -356,6 +380,11 @@ public class Tournament implements CARE
         for(Champion xx:champions){
             if(xx.getName().equals(nme)){
                 return xx;
+            }
+        }
+        for(Champion yy:reserves){
+            if(yy.getName().equals(nme)){
+                return yy;
             }
         }
         return null;
@@ -408,31 +437,38 @@ public class Tournament implements CARE
             return;
         }
         int challengeNum = challengeListStr.size();
-        Challenge[] allChallenges = new Challenge[challengeNum];
         for (int num = 0; num < challengeListStr.size(); num++) {
-            String toBeArray = challengeListStr.get(num);
-            int counter = 0;
-            StringBuilder word = new StringBuilder();
-            char breaker = ',';
-            ArrayList<String> challengeFields = new ArrayList<String>();
-            while (counter != toBeArray.length()) {
+            ArrayList<String> challengeFields = getStrings(num);
+            ChallengeType chalEnum = switch (challengeFields.get(0)) {
+                case "Magic" -> ChallengeType.MAGIC;
+                case "Fight" -> ChallengeType.FIGHT;
+                case "Mystery" -> ChallengeType.MYSTERY;
+                default -> null;
+            };
 
-                char letter = toBeArray.charAt(counter);
-
-                if (letter == breaker) {
-                    challengeFields.add(word.toString());
-                    word = new StringBuilder();
-                    counter += 1;
-                } else {
-                    word.append(Character.toString(letter));
-                    counter += 1;
-                }
-            }
-            ChallengeType.valueOf(challengeFields.get(0));
-            allChallenges[num] = new Challenge(num, ChallengeType.valueOf(challengeFields.get(0)),
+            challengeList.add(new Challenge(num, chalEnum,
                     challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
-                    , Integer.parseInt(challengeFields.get(3)));
+                    , Integer.parseInt(challengeFields.get(3))));
         }
+    }
+
+    private ArrayList<String> getStrings(int num) {
+        String toBeArray = challengeListStr.get(num);
+        int counter = 0;
+        StringBuilder word = new StringBuilder();
+        char breaker = ',';
+        ArrayList<String> challengeFields = new ArrayList<String>();
+        while (counter != toBeArray.length()) {
+            char letter = toBeArray.charAt(counter);
+            if (letter == breaker) {
+                challengeFields.add(word.toString());
+                word = new StringBuilder();
+            } else {
+                word.append(Character.toString(letter));
+            }
+            counter += 1;
+        }
+        return challengeFields;
     }
 
     /** reads all information about the game from the specified file
@@ -442,8 +478,14 @@ public class Tournament implements CARE
      */
     public Tournament loadGame(String fname)
     {   // uses object serialisation
-        Tournament yyy = null;
-
+        Tournament yyy;
+        try{
+            FileInputStream loadFile = new FileInputStream(fname);
+            ObjectInputStream loadObject = new ObjectInputStream(loadFile);
+            yyy = (Tournament) loadObject.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return yyy;
     }
 
@@ -451,7 +493,16 @@ public class Tournament implements CARE
      * @param fname name of file storing requests
      */
     public void saveGame(String fname){
-        // uses object serialisation 
+        // uses object serialisation
+        try {
+            FileOutputStream saveFile = new FileOutputStream(fname);
+            ObjectOutputStream saveObject = new ObjectOutputStream(saveFile);
+            saveObject.writeObject(this);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
