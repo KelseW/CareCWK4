@@ -82,7 +82,7 @@ public class Tournament implements CARE
      */
     public boolean isDefeated()
     {
-        if (treasury<=0){
+        if (treasury <=0){
             return champions.isEmpty();
         }
         return false;
@@ -306,13 +306,15 @@ public class Tournament implements CARE
      */
     public int meetChallenge(int chalNo)
     {
-        //Nothing said about accepting challenges when bust
         int outcome = -1 ;
         Challenge chal = this.getSpecificChallenge(chalNo);
         if (chal != null) {
             Champion fighter = this.getChampionForChallenge(chalNo);
             boolean result = chal.doChallenge(fighter);
-            if (fighter == null) {
+            if (this.isDefeated()) {
+                this.treasury -= chal.getReward();
+                outcome = 3;
+            } else if (fighter == null || fighter.getChampState() != ChampionState.ENTERED) {
                 this.treasury -= chal.getReward();
                 outcome = 2;
             } else if (result) {
@@ -322,10 +324,6 @@ public class Tournament implements CARE
                 this.treasury -= chal.getReward();
                 fighter.setChampState(ChampionState.DISQUALIFIED);
                 outcome = 1;
-            }
-
-            if (this.isDefeated()) {
-                outcome = 3;
             }
         }
         return outcome;
