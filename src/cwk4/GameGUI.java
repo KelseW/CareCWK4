@@ -37,26 +37,30 @@ public class GameGUI
     /**
      * Create the Swing frame and its content.
      */
-    private void makeFrame()
-    {    
+    private void makeFrame() {
         myFrame.setLayout(new BorderLayout());
-        myFrame.add(listing,BorderLayout.CENTER);
-        listing.setVisible(false);
+        myFrame.add(listing, BorderLayout.CENTER);
+        listing.setEditable(false); // Ensure JTextArea is not editable
         myFrame.add(eastPanel, BorderLayout.EAST);
-        // set panel layout and add components
-        eastPanel.setLayout(new GridLayout(4,1));
+
+        // Set panel layout and add components
+        eastPanel.setLayout(new GridLayout(5, 1)); // Increased to 5 for additional View State button
         eastPanel.add(meetBtn);
+        eastPanel.add(viewBtn); // Add view state button
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
-        
-        clearBtn.addActionListener(new ClearBtnHandler());
+
+        // Set action listeners for buttons
+        clearBtn.addActionListener(e -> listing.setText(""));
         meetBtn.addActionListener(new MeetBtnHandler());
+        viewBtn.addActionListener(e -> {
+            listing.setText(gp.toString());
+            listing.setVisible(true);
+        });
         quitBtn.addActionListener(new QuitBtnHandler());
-        
-        meetBtn.setVisible(true);
-        clearBtn.setVisible(true);
-        quitBtn.setVisible(true);
-        // building is done - arrange the components and show        
+
+        // Building is done - arrange the components and show
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application closes properly
         myFrame.pack();
         myFrame.setVisible(true);
     }
@@ -64,19 +68,57 @@ public class GameGUI
     /**
      * Create the main frame's menu bar.
      */
-    private void makeMenuBar(JFrame frame)
-    {
+    private void makeMenuBar(JFrame frame) {
         JMenuBar menubar = new JMenuBar();
         frame.setJMenuBar(menubar);
-        
-        // create the File menu
+
+        // Create the Champions menu
         JMenu championMenu = new JMenu("Champions");
         menubar.add(championMenu);
-        
-        JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
-        listChampionItem.addActionListener(new ListReserveHandler());
-        championMenu.add(listChampionItem);
 
+        JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
+        JMenuItem listTeamItem = new JMenuItem("List Team");
+        JMenuItem viewChampionItem = new JMenuItem("View Champion");
+        JMenuItem enterChampionItem = new JMenuItem("Enter Champion");
+
+        championMenu.add(listChampionItem);
+        championMenu.add(listTeamItem);
+        championMenu.add(viewChampionItem);
+        championMenu.add(enterChampionItem);
+
+        listChampionItem.addActionListener(new ListReserveHandler());
+        listTeamItem.addActionListener(e -> {
+            listing.setText(gp.getTeam());
+            listing.setVisible(true);
+        });
+        viewChampionItem.addActionListener(e -> {
+            String name = JOptionPane.showInputDialog(frame, "Enter the name of the champion:");
+            if (name != null && !name.isEmpty()) {
+                String details = gp.getChampionDetails(name);
+                JOptionPane.showMessageDialog(frame, details);
+            }
+        });
+        enterChampionItem.addActionListener(e -> {
+            String name = JOptionPane.showInputDialog(frame, "Enter the name of the champion to enter:");
+            if (name != null && !name.isEmpty()) {
+                int result = gp.enterChampion(name);
+                String message = "Champion entered successfully.";
+                if (result != 0) message = "Failed to enter champion. Error code: " + result;
+                JOptionPane.showMessageDialog(frame, message);
+            }
+        });
+
+        // Create the Challenges menu
+        JMenu challengesMenu = new JMenu("Challenges");
+        menubar.add(challengesMenu);
+
+        JMenuItem listChallengesItem = new JMenuItem("List All Challenges");
+        challengesMenu.add(listChallengesItem);
+
+        listChallengesItem.addActionListener(e -> {
+            listing.setText(gp.getAllChallenges());
+            listing.setVisible(true);
+        });
         JMenuItem viewChampion = new JMenuItem("View a champion");
         viewChampion.addActionListener(new viewChamphandler());
         championMenu.add(viewChampion);
@@ -111,7 +153,7 @@ public class GameGUI
     
     private class MeetBtnHandler implements ActionListener
     {
-        public void actionPerformed(ActionEvent e) 
+        public void actionPerformed(ActionEvent e)
         { 
             int result = -1;
             String answer = "no such challenge";
@@ -185,6 +227,6 @@ public class GameGUI
             GameGUI.this.listing.setText(xx);
         }
     }
-    
+
 }
    

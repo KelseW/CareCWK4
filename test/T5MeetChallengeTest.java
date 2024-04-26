@@ -5,11 +5,8 @@
  */
 import cwk4.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import static org.junit.Assert.*;
 
 /**
@@ -280,10 +277,10 @@ public class T5MeetChallengeTest {
     
     @Test
     public void dragonFacingFightAllowedWins() {
-        int expected = 0;
-        game.enterChampion("Drabina");
-        int actual = game.meetChallenge(0);
-        assertEquals(expected, actual);
+        this.game.enterChampion("Drabina");
+        int actualResult = this.game.meetChallenge(2);
+        int expectedResult = 0;
+        Assert.assertEquals((long)expectedResult, (long)actualResult);
     }
 
     @Test
