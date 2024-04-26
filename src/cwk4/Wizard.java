@@ -57,12 +57,7 @@ public class Wizard extends Champion {
      */
     @Override
     public String toString() {
-        String var = super.toString();
-        return "Wizard:" + var +
-                "\nName: " + getName() +
-                "\nSkill Level:" + getSkillLevel() +
-                "\nEntry fee: " + getEntryFee() +
-                "\nIs Necromancer: " + isNecromancer +
+        return "\nWizard"+super.toString() + "\nIs Necromancer: " + isNecromancer +
                 "\nSpell Speciality: " + spellSpeciality;
     }
 }

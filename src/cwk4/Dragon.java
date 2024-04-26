@@ -17,7 +17,7 @@ public class Dragon extends Champion{
 
     @Override
     public String toString(){
-        return super.toString() + "\nCan talk:  " + talks;
+        return "\nDragon"+super.toString() + "\nCan talk:  " + talks;
     }
 
     @Override

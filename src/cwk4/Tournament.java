@@ -40,7 +40,10 @@ public class Tournament implements CARE
     public Tournament(String viz, String filename)  //Task 3.5
     {
 
-
+        this.vizier = viz;
+        champions = new ArrayList<>();
+        reserves = new ArrayList<>();
+        vizier = viz;
         setupChampions();
         readChallenges(filename);
     }
@@ -224,7 +227,7 @@ public class Tournament implements CARE
             return "\nNo champions entered";
         }
         for(Champion champ: champions){
-            s.append(champ.toString());
+            s.append("\n"+champ.toString());
         }
         return s.toString();
     }
@@ -257,7 +260,7 @@ public class Tournament implements CARE
         return num > 0 && num <= challengeList.size();
     }
 
-    /** Provides a String representation of an challenge given by
+    /** Provides a String representation of a challenge given by
      * the challenge number
      * @param num the number of the challenge
      * @return returns a String representation of a challenge given by
@@ -283,6 +286,8 @@ public class Tournament implements CARE
         for (Challenge xx: challengeList){
             s.append("\n").append(xx.toString());
         }
+
+
         return s.toString();
     }
 
@@ -321,8 +326,6 @@ public class Tournament implements CARE
         }
         return -1;
     }
-
-
 
 
     //****************** private methods for Task 3 functionality*******************
@@ -430,31 +433,38 @@ public class Tournament implements CARE
             return;
         }
         int challengeNum = challengeListStr.size();
-        Challenge[] allChallenges = new Challenge[challengeNum];
         for (int num = 0; num < challengeListStr.size(); num++) {
-            String toBeArray = challengeListStr.get(num);
-            int counter = 0;
-            StringBuilder word = new StringBuilder();
-            char breaker = ',';
-            ArrayList<String> challengeFields = new ArrayList<String>();
-            while (counter != toBeArray.length()) {
+            ArrayList<String> challengeFields = getStrings(num);
+            ChallengeType chalEnum = switch (challengeFields.get(0)) {
+                case "Magic" -> ChallengeType.MAGIC;
+                case "Fight" -> ChallengeType.FIGHT;
+                case "Mystery" -> ChallengeType.MYSTERY;
+                default -> null;
+            };
 
-                char letter = toBeArray.charAt(counter);
-
-                if (letter == breaker) {
-                    challengeFields.add(word.toString());
-                    word = new StringBuilder();
-                    counter += 1;
-                } else {
-                    word.append(Character.toString(letter));
-                    counter += 1;
-                }
-            }
-            ChallengeType.valueOf(challengeFields.get(0));
-            allChallenges[num] = new Challenge(num, ChallengeType.valueOf(challengeFields.get(0)),
+            challengeList.add(new Challenge(num, chalEnum,
                     challengeFields.get(1), Integer.parseInt(challengeFields.get(2))
-                    , Integer.parseInt(challengeFields.get(3)));
+                    , Integer.parseInt(challengeFields.get(3))));
         }
+    }
+
+    private ArrayList<String> getStrings(int num) {
+        String toBeArray = challengeListStr.get(num);
+        int counter = 0;
+        StringBuilder word = new StringBuilder();
+        char breaker = ',';
+        ArrayList<String> challengeFields = new ArrayList<String>();
+        while (counter != toBeArray.length()) {
+            char letter = toBeArray.charAt(counter);
+            if (letter == breaker) {
+                challengeFields.add(word.toString());
+                word = new StringBuilder();
+            } else {
+                word.append(Character.toString(letter));
+            }
+            counter += 1;
+        }
+        return challengeFields;
     }
 
     /** reads all information about the game from the specified file
@@ -464,21 +474,33 @@ public class Tournament implements CARE
      */
     public Tournament loadGame(String fname)
     {   // uses object serialisation
-        Tournament yyy = null;
-
+        Tournament yyy;
+        try{
+            FileInputStream loadFile = new FileInputStream(fname);
+            ObjectInputStream loadObject = new ObjectInputStream(loadFile);
+            yyy = (Tournament) loadObject.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return yyy;
     }
-
-
 
     /** Writes whole game to the specified file
      * @param fname name of file storing requests
      */
     public void saveGame(String fname){
-        // uses object serialisation 
+        // uses object serialisation
+        try {
+            FileOutputStream saveFile = new FileOutputStream(fname);
+            ObjectOutputStream saveObject = new ObjectOutputStream(saveFile);
+            saveObject.writeObject(this);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
-
 
 
 }

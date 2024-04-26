@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class GameGUI 
 {
-    private CARE gp = new Tournament("Fred");
+    private CARE gp = new Tournament("Fred", "challengesAM.txt");
     private JFrame myFrame = new JFrame("Game GUI");
     private JTextArea listing = new JTextArea();
     private JLabel codeLabel = new JLabel ();
@@ -50,6 +50,10 @@ public class GameGUI
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
 
+        eastPanel.add(viewBtn);
+
+        clearBtn.addActionListener(new ClearBtnHandler());
+
         // Set action listeners for buttons
         clearBtn.addActionListener(e -> listing.setText(""));
         meetBtn.addActionListener(new MeetBtnHandler());
@@ -61,6 +65,17 @@ public class GameGUI
 
         // Building is done - arrange the components and show
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application closes properly
+
+
+        viewBtn.addActionListener(new ViewButtonHandler());
+
+        meetBtn.setVisible(true);
+        clearBtn.setVisible(true);
+        quitBtn.setVisible(true);
+
+        viewBtn.setVisible(true);
+
+        // building is done - arrange the components and show
         myFrame.pack();
         myFrame.setVisible(true);
     }
@@ -75,7 +90,7 @@ public class GameGUI
         // Create the Champions menu
         JMenu championMenu = new JMenu("Champions");
         menubar.add(championMenu);
-
+        
         JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
         //JMenuItem listTeamItem = new JMenuItem("List Team");
         //JMenuItem viewChampionItem = new JMenuItem("View Champion");
@@ -153,7 +168,7 @@ public class GameGUI
     
     private class MeetBtnHandler implements ActionListener
     {
-        public void actionPerformed(ActionEvent e)
+        public void actionPerformed(ActionEvent e) 
         { 
             int result = -1;
             String answer = "no such challenge";
@@ -227,6 +242,16 @@ public class GameGUI
             GameGUI.this.listing.setText(xx);
         }
     }
+
+
+    private class ViewButtonHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) {
+            String result = gp.toString();
+            JOptionPane.showMessageDialog(myFrame,result);
+        }
+    }
+
 
 }
    

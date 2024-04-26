@@ -49,6 +49,7 @@ public class T7ChallengeSequences {
         int expected = 2;
         game.enterChampion("Flimsi");
         game.meetChallenge(2);  //should be dead
+        game.meetChallenge(2);  //try challenge again
         int actual = game.meetChallenge(2); //re-used ?
         assertEquals(expected, actual);
     }
@@ -86,11 +87,12 @@ public class T7ChallengeSequences {
     public void defeatAchieved() {
         int expected = 3;
         game.enterChampion("Rudolf");
-        game.enterChampion("Flimsi");
-        game.meetChallenge(8);  //lose
-        game.meetChallenge(8);  //lose
-        game.meetChallenge(8);  //no one left
-        int actual = game.meetChallenge(8);  //no one left
+        game.retireChampion("Rudolf");
+        game.meetChallenge(9);  //lose
+        game.meetChallenge(9);  //make sure no money left
+        game.meetChallenge(9);  //make sure no money left
+        game.meetChallenge(9);  //make sure no money left
+        int actual = game.meetChallenge(9);  //no one left
         assertEquals(expected, actual);
     }
     
@@ -135,10 +137,11 @@ public class T7ChallengeSequences {
         int expected = 3;
         game.enterChampion("Drabina");
         game.enterChampion("Flimsi");
-        game.meetChallenge(4);  //lose as no one available
-        game.meetChallenge(4);  //lose as no one available
         game.retireChampion("Drabina");
         game.retireChampion("Flimsi"); //no one in Team
+        game.meetChallenge(4);  //make sure treasury is <= 0
+        game.meetChallenge(4);  //make sure treasury is <= 0
+        game.meetChallenge(4);  //make sure treasury is <= 0
         game.meetChallenge(4);  //lose as no one available
         int actual = game.meetChallenge(4);  //lose as no one available
         assertEquals(expected, actual);
@@ -146,7 +149,7 @@ public class T7ChallengeSequences {
     
     @Test
     public void defeatAchievedAfterWithdrawMoney() {
-        int expected = 1000-500-200-200-200+250+100-200-200;
+        int expected = 1000-500-200-200-200-200-200;
         game.enterChampion("Drabina");
         game.enterChampion("Flimsi");
         game.meetChallenge(4);  //lose as no one available
