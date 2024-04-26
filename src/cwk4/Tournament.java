@@ -324,6 +324,7 @@ public class Tournament implements CARE
                 return 1;
             }
         }
+        if (this.isDefeated()) return 3;
         return -1;
     }
 
