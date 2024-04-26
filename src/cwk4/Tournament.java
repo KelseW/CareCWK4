@@ -82,7 +82,7 @@ public class Tournament implements CARE
      */
     public boolean isDefeated()
     {
-        if (treasury <=0){
+        if (treasury<=0){
             return champions.isEmpty();
         }
         return false;
@@ -117,6 +117,9 @@ public class Tournament implements CARE
     public String getChampionDetails(String nme) {
         Champion xx = getChamp(nme);
         if(xx != null) {
+            if (xx.getChampState() == ChampionState.DISQUALIFIED) {
+                return xx.toString() + "\nStatus: Disqualified";
+            }
             return xx.toString();
         }
         return "\nNo such champion";
@@ -304,29 +307,25 @@ public class Tournament implements CARE
      * @param chalNo is the number of the challenge
      * @return an int showing the result(as above) of fighting the challenge
      */
-    public int meetChallenge(int chalNo)
-    {
-        int outcome = -1 ;
-        Challenge chal = this.getSpecificChallenge(chalNo);
+    public int meetChallenge(int chalNo) {
+        Challenge chal = getSpecificChallenge(chalNo);
         if (chal != null) {
-            Champion fighter = this.getChampionForChallenge(chalNo);
+            Champion fighter = getChampionForChallenge(chalNo);
             boolean result = chal.doChallenge(fighter);
-            if (this.isDefeated()) {
+            if (fighter == null) {
                 this.treasury -= chal.getReward();
-                outcome = 3;
-            } else if (fighter == null || fighter.getChampState() != ChampionState.ENTERED) {
-                this.treasury -= chal.getReward();
-                outcome = 2;
+                return 2;
             } else if (result) {
                 this.treasury += chal.getReward();
-                outcome = 0;
+                return 0;
             } else {
                 this.treasury -= chal.getReward();
                 fighter.setChampState(ChampionState.DISQUALIFIED);
-                outcome = 1;
+                return 1;
             }
         }
-        return outcome;
+        if (this.isDefeated()) return 3;
+        return -1;
     }
 
 
