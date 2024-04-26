@@ -65,8 +65,6 @@ public class GameGUI
 
         // Building is done - arrange the components and show
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application closes properly
-
-
         viewBtn.addActionListener(new ViewButtonHandler());
 
         meetBtn.setVisible(true);
@@ -75,7 +73,11 @@ public class GameGUI
 
         viewBtn.setVisible(true);
 
-        // building is done - arrange the components and show
+        // building is done - arrange the components and show        
+
+        // Building is done - arrange the components and show
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application closes properly
+
         myFrame.pack();
         myFrame.setVisible(true);
     }
@@ -90,22 +92,33 @@ public class GameGUI
         // Create the Champions menu
         JMenu championMenu = new JMenu("Champions");
         menubar.add(championMenu);
-        
+        JMenuItem viewChampion = new JMenuItem("View a champion");
+        viewChampion.addActionListener(new viewChamphandler());
+        championMenu.add(viewChampion);
+
+        JMenuItem enterChamp = new JMenuItem("Enter a champion");
+        enterChamp.addActionListener(new enterChampionHandler());
+        championMenu.add(enterChamp);
+
+        JMenuItem listTeam = new JMenuItem("List champions in team");
+        championMenu.add(listTeam);
+        listTeam.addActionListener(new listTeamHandler());
         JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
         //JMenuItem listTeamItem = new JMenuItem("List Team");
         //JMenuItem viewChampionItem = new JMenuItem("View Champion");
         //JMenuItem enterChampionItem = new JMenuItem("Enter Champion");
 
         championMenu.add(listChampionItem);
+
         //championMenu.add(listTeamItem);
         //championMenu.add(viewChampionItem);
         //championMenu.add(enterChampionItem);
-
         listChampionItem.addActionListener(new ListReserveHandler());
       /*  listTeamItem.addActionListener(e -> {
             listing.setText(gp.getTeam());
             listing.setVisible(true);
         });
+
         viewChampionItem.addActionListener(e -> {
             String name = JOptionPane.showInputDialog(frame, "Enter the name of the champion:");
             if (name != null && !name.isEmpty()) {
@@ -122,7 +135,6 @@ public class GameGUI
                 JOptionPane.showMessageDialog(frame, message);
             }
         });*/
-
         // Create the Challenges menu
         JMenu challengesMenu = new JMenu("Challenges");
         menubar.add(challengesMenu);
@@ -134,17 +146,7 @@ public class GameGUI
             listing.setText(gp.getAllChallenges());
             listing.setVisible(true);
         });
-        JMenuItem viewChampion = new JMenuItem("View a champion");
-        viewChampion.addActionListener(new viewChamphandler());
-        championMenu.add(viewChampion);
 
-        JMenuItem enterChamp = new JMenuItem("Enter a champion");
-        enterChamp.addActionListener(new enterChampionHandler());
-        championMenu.add(enterChamp);
-
-        JMenuItem listTeam = new JMenuItem("List champions in team");
-        championMenu.add(listTeam);
-        listTeam.addActionListener(new listTeamHandler());
     }
 
     private class ListReserveHandler implements ActionListener
@@ -229,7 +231,7 @@ public class GameGUI
             else{
                 result.append("No such Champion");
             }
-            result.append("\\nTreasury = £\"" + GameGUI.this.gp.getMoney());
+            result.append("\nTreasury = £" + GameGUI.this.gp.getMoney());
             JOptionPane.showMessageDialog(GameGUI.this.myFrame, result);
         }
     }
