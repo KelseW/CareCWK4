@@ -77,17 +77,17 @@ public class GameGUI
         menubar.add(championMenu);
 
         JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
-        JMenuItem listTeamItem = new JMenuItem("List Team");
-        JMenuItem viewChampionItem = new JMenuItem("View Champion");
-        JMenuItem enterChampionItem = new JMenuItem("Enter Champion");
+        //JMenuItem listTeamItem = new JMenuItem("List Team");
+        //JMenuItem viewChampionItem = new JMenuItem("View Champion");
+        //JMenuItem enterChampionItem = new JMenuItem("Enter Champion");
 
         championMenu.add(listChampionItem);
-        championMenu.add(listTeamItem);
-        championMenu.add(viewChampionItem);
-        championMenu.add(enterChampionItem);
+        //championMenu.add(listTeamItem);
+        //championMenu.add(viewChampionItem);
+        //championMenu.add(enterChampionItem);
 
         listChampionItem.addActionListener(new ListReserveHandler());
-        listTeamItem.addActionListener(e -> {
+      /*  listTeamItem.addActionListener(e -> {
             listing.setText(gp.getTeam());
             listing.setVisible(true);
         });
@@ -106,7 +106,7 @@ public class GameGUI
                 if (result != 0) message = "Failed to enter champion. Error code: " + result;
                 JOptionPane.showMessageDialog(frame, message);
             }
-        });
+        });*/
 
         // Create the Challenges menu
         JMenu challengesMenu = new JMenu("Challenges");
